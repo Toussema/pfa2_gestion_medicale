@@ -1,0 +1,7 @@
+PostgresOussema
+port 5432
+
+
+psql -U postgres
+\c medical_app
+Vous êtes maintenant connecté à la base de données « medical_app » en tant qu'utilisateur « postgres ».
