@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <!-- HEADER -->
+  <header class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary">Bienvenue sur <span class="text-success">Medical App</span></h1>
+    <p class="lead text-muted">Plateforme de gestion médicale en ligne</p>
+  </header>
+
+  <!-- BOUTONS -->
+  <div class="d-flex justify-content-end mb-4">
+    <ng-container *ngIf="!currentUser; else loggedIn">
+      <button class="btn btn-outline-primary me-2" routerLink="/login">Se connecter</button>
+      <button class="btn btn-outline-success" routerLink="/signup">S’inscrire</button>
+    </ng-container>
+    <ng-template #loggedIn>
+      <div class="text-end">
+        <p class="mb-1"><strong>{{ currentUser?.name }}</strong> ({{ currentUser?.role }})</p>
+        <button class="btn btn-outline-danger btn-sm" (click)="logout()">Se déconnecter</button>
+        <button class="btn btn-primary" *ngIf="currentUser?.role === 'medecin'" routerLink="/disponibilites">Gérer mes disponibilités</button>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- LISTE DES MÉDECINS -->
+  <section>
+    <h2 class="mb-4 text-secondary">Nos Médecins</h2>
+    <div class="row">
+      <div class="col-md-6 col-lg-4" *ngFor="let doctor of doctors">
+        <div class="card doctor-card mb-4">
+          <div class="card-body">
+            <h5 class="card-title text-success">{{ doctor.name }}</h5>
+            <hr>
+            <p><strong>Spécialité:</strong> {{ doctor.specialite || 'Non spécifiée' }}</p>
+            <p><strong>Email:</strong> {{ doctor.email }}</p>
+            <p><strong>Téléphone:</strong> {{ doctor.tel || 'Non disponible' }}</p>
+            <p><strong>GSM:</strong> {{ doctor.gsm || 'Non disponible' }}</p>
+            <p><strong>Adresse:</strong> {{ doctor.adresse || 'Non disponible' }}</p>
+            <p class="card-text">Disponibilités :</p>
+          <ul>
+            <li *ngFor="let dispo of doctor.disponibilites">
+              {{ dispo.jour }} : {{ dispo.heureDebut }} - {{ dispo.heureFin }}
+            </li>
+            <li *ngIf="!doctor.disponibilites || doctor.disponibilites.length === 0">Aucune disponibilité définie</li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

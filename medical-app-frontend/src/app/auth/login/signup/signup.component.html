@@ -1,0 +1,58 @@
+<div class="container mt-5"> 
+  <h2>Inscription</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Mot de passe</label>
+      <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="role" class="form-label">Rôle</label>
+      <select class="form-control" id="role" [(ngModel)]="user.role" name="role">
+        <option value="patient">Utilisateur</option>
+        <option value="medecin">Médecin</option>
+        <option value="admin">Administrateur</option>
+      </select>
+    </div>
+
+    <!-- Champs affichés uniquement si le rôle est 'medecin' -->
+    <div *ngIf="user.role === 'medecin'">
+      <div class="mb-3">
+        <label for="specialite" class="form-label">Spécialité</label>
+        <input type="text" class="form-control" id="specialite" [(ngModel)]="user.specialite" name="specialite">
+      </div>
+
+      <div class="mb-3">
+        <label for="adresse" class="form-label">Adresse</label>
+        <input type="text" class="form-control" id="adresse" [(ngModel)]="user.adresse" name="adresse">
+      </div>
+
+      <div class="mb-3">
+        <label for="tel" class="form-label">Téléphone</label>
+        <input type="text" class="form-control" id="tel" [(ngModel)]="user.tel" name="tel">
+      </div>
+
+      <div class="mb-3">
+        <label for="gsm" class="form-label">GSM</label>
+        <input type="text" class="form-control" id="gsm" [(ngModel)]="user.gsm" name="gsm">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">S’inscrire</button>
+  </form>
+
+  <div class="mt-3">
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  </div>
+</div>
