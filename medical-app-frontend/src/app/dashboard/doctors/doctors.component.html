@@ -1,0 +1,56 @@
+<!-- src/app/doctors/doctors.component.html -->
+<div class="doctors-container">
+  <h1>Tous les Médecins</h1>
+
+  <div class="search-bar">
+    <input 
+      type="text" 
+      [(ngModel)]="searchQuery" 
+      (input)="searchDoctors()" 
+      placeholder="Rechercher par nom ou ville..." 
+    />
+  </div>
+
+  <div class="doctor-list">
+    <div 
+      class="doctor-card" 
+      [ngClass]="{'selected': selectedDoctor?.id === doctor.id}" 
+      *ngFor="let doctor of filteredDoctors" 
+      (click)="toggleDoctor(doctor)"
+    >
+      <h3>{{ doctor.name }}</h3>
+      <p>Spécialité: {{ doctor.specialite || 'Non spécifiée' }}</p>
+      <p>Adresse: {{ doctor.adresse || 'Non spécifiée' }}</p>
+
+      <div *ngIf="selectedDoctor?.id === doctor.id" class="expanded-details">
+        <p><strong>Email :</strong> {{ doctor.email }}</p>
+        <p><strong>Téléphone :</strong> {{ doctor.tel || 'Non spécifié' }}</p>
+        <p><strong>GSM :</strong> {{ doctor.gsm || 'Non spécifié' }}</p>
+        <div *ngIf="doctor.disponibilites && doctor.disponibilites.length > 0; else noAvailability">
+          <p><strong>Disponibilités :</strong></p>
+          <ul>
+            <li *ngFor="let disp of doctor.disponibilites">
+              {{ disp.jour }} {{ disp.heureDebut }} - {{ disp.heureFin }}
+            </li>
+          </ul>
+        </div>
+        <ng-template #noAvailability>
+          <p>Aucune disponibilité pour le moment.</p>
+        </ng-template>
+        <button *ngIf="currentUser?.role === 'patient'" (click)="goToRendezVous(doctor.id); $event.stopPropagation()">
+          Prendre un rendez-vous
+        </button>
+        <div #map class="map-container" (click)="$event.stopPropagation()"></div>
+      </div>
+
+      <div *ngIf="selectedDoctor?.id !== doctor.id && doctor.disponibilites && doctor.disponibilites.length > 0">
+        <p>Disponibilités :</p>
+        <ul>
+          <li *ngFor="let disp of doctor.disponibilites">
+            {{ disp.jour }} {{ disp.heureDebut }} - {{ disp.heureFin }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

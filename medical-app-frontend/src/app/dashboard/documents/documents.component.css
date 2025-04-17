@@ -1,0 +1,8 @@
+/* src/app/documents/documents.component.css */
+.documents-container { padding: 20px; max-width: 800px; margin: 0 auto; }
+.upload-section { margin-bottom: 20px; }
+.upload-section input { margin-right: 10px; }
+.documents-list ul { list-style: none; padding: 0; }
+.documents-list li { margin-bottom: 10px; }
+button { padding: 8px 15px; margin-left: 10px; }
+.error { color: red; margin-top: 10px; }

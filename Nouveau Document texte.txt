@@ -5,3 +5,22 @@ port 5432
 psql -U postgres
 \c medical_app
 Vous êtes maintenant connecté à la base de données « medical_app » en tant qu'utilisateur « postgres ».
+
+- bouton prendre rdv yodhher ama yhezk lel login
+- l'envoi des documents apres confirmation du rdv par le medecin
+- idha fama au moins un rdv bin tbib w patient w tbib badl (adresse, gsm, telephone), we7d b3ath lel le5r doc, 
+
+
+
+
+CREATE TABLE documents (
+    id SERIAL PRIMARY KEY,
+    rendez_vous_id BIGINT NOT NULL,
+    sender_id BIGINT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
+    file_data BYTEA NOT NULL,
+    upload_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (rendez_vous_id) REFERENCES rendez_vous(id),
+    FOREIGN KEY (sender_id) REFERENCES users(id)
+);

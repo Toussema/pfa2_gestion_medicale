@@ -24,7 +24,13 @@ export class HomeComponent implements OnInit {
 
   loadDoctors(): void {
     this.authService.getDoctors().subscribe({
-      next: (doctors) => this.doctors = doctors,
+      next: (doctors) => {
+        // Filtrer les disponibilités disponibles pour chaque médecin
+        this.doctors = doctors.map(doctor => ({
+          ...doctor,
+          disponibilites: doctor.disponibilites.filter((disp: any) => disp.estDisponible)
+        })).filter(doctor => doctor.disponibilites.length > 0); // Ne montrer que les médecins avec des disponibilités
+      },
       error: (err) => console.error('Erreur lors du chargement des médecins', err)
     });
   }
@@ -41,5 +47,18 @@ export class HomeComponent implements OnInit {
     this.authService.logout();
     this.currentUser = null;
     this.router.navigate(['/home']);
+  }
+
+  goToRendezVous(doctorId: number): void {
+    if (this.currentUser?.role === 'patient') {
+      this.router.navigate(['/rendez-vous'], { queryParams: { medecinId: doctorId } });
+    } else {
+      this.router.navigate(['/rendez-vous']);
+    }
+  }
+
+  // Méthode pour recharger les médecins si nécessaire (par exemple après confirmation)
+  refreshDoctors(): void {
+    this.loadDoctors();
   }
 }

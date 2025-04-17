@@ -1,0 +1,65 @@
+<!-- src/app/profile/profile.component.html -->
+<div class="profile-container">
+  <h1>Mon Profil</h1>
+
+  <div *ngIf="user && !isEditing" class="profile-info">
+    <p><strong>Nom :</strong> {{ user.name }}</p>
+    <p><strong>Email :</strong> {{ user.email }}</p>
+    <p><strong>Rôle :</strong> {{ user.role }}</p>
+    <p><strong>Adresse :</strong> {{ user.adresse || 'Non spécifiée' }}</p>
+    <p><strong>Téléphone :</strong> {{ user.tel || 'Non spécifié' }}</p>
+    <p><strong>GSM :</strong> {{ user.gsm || 'Non spécifié' }}</p>
+    <p *ngIf="user.role === 'medecin'"><strong>Spécialité :</strong> {{ user.specialite || 'Non spécifiée' }}</p>
+    <button (click)="toggleEdit()">Modifier le profil</button>
+    <button (click)="deleteAccount()" class="delete-btn">Supprimer le compte</button>
+  </div>
+
+  <div *ngIf="isEditing" class="edit-form">
+    <h2>Modifier le Profil</h2>
+    <div class="form-group">
+      <label>Nom :</label>
+      <input [(ngModel)]="updatedUser.name" placeholder="Nouveau nom" />
+    </div>
+    <div class="form-group">
+      <label>Adresse :</label>
+      <input [(ngModel)]="updatedUser.adresse" placeholder="Nouvelle adresse" />
+    </div>
+    <div class="form-group">
+      <label>Téléphone :</label>
+      <input [(ngModel)]="updatedUser.tel" placeholder="Nouveau téléphone" />
+    </div>
+    <div class="form-group">
+      <label>GSM :</label>
+      <input [(ngModel)]="updatedUser.gsm" placeholder="Nouveau GSM" />
+    </div>
+    <div class="form-group" *ngIf="user.role === 'medecin'">
+      <label>Spécialité :</label>
+      <input [(ngModel)]="updatedUser.specialite" placeholder="Nouvelle spécialité" />
+    </div>
+    <div class="form-group">
+      <label>Email (confirmation) :</label>
+      <input [(ngModel)]="emailForUpdate" type="email" placeholder="Votre email" />
+    </div>
+    <div class="form-group">
+      <label>Mot de passe (confirmation) :</label>
+      <input [(ngModel)]="passwordForUpdate" type="password" placeholder="Votre mot de passe" />
+    </div>
+    <button (click)="updateProfile()">Enregistrer</button>
+    <button (click)="toggleEdit()">Annuler</button>
+  </div>
+
+  <div *ngIf="!isEditing && user" class="delete-section">
+    <h2>Supprimer le compte</h2>
+    <div class="form-group">
+      <label>Email :</label>
+      <input [(ngModel)]="emailForDelete" type="email" placeholder="Votre email" />
+    </div>
+    <div class="form-group">
+      <label>Mot de passe :</label>
+      <input [(ngModel)]="passwordForDelete" type="password" placeholder="Votre mot de passe" />
+    </div>
+    <button (click)="deleteAccount()" class="delete-btn">Confirmer la suppression</button>
+  </div>
+
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+</div>

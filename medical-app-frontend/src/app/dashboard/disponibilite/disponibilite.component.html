@@ -1,56 +1,43 @@
 <!-- src/app/dashboard/disponibilite/disponibilite.component.html -->
 <div class="disponibilite-container">
-  <h2>Mes Disponibilités</h2>
+  <h1>Gérer mes Disponibilités</h1>
 
-  <!-- Optional: Display doctor's name -->
-  <p *ngIf="doctorName">Docteur: {{ doctorName }}</p>
-
-  <!-- Display disponibilites -->
-  <div *ngIf="disponibilites.length > 0; else noDisponibilites">
-    <table class="disponibilite-table">
-      <thead>
-        <tr>
-          <th>Jour</th>
-          <th>Heure de Début</th>
-          <th>Heure de Fin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let disp of disponibilites">
-          <td>{{ disp.jour }}</td>
-          <td>{{ disp.heureDebut }}</td>
-          <td>{{ disp.heureFin }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="form-section">
+    <h2>{{ editingDisponibilite ? 'Modifier la Disponibilité' : 'Ajouter une Disponibilité' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="jour">Jour:</label>
+        <input type="date" id="jour" [(ngModel)]="disponibilite.jour" name="jour" required />
+      </div>
+      <div class="form-group">
+        <label for="heureDebut">Heure de début:</label>
+        <input type="time" id="heureDebut" [(ngModel)]="disponibilite.heureDebut" name="heureDebut" required />
+      </div>
+      <div class="form-group">
+        <label for="heureFin">Heure de fin:</label>
+        <input type="time" id="heureFin" [(ngModel)]="disponibilite.heureFin" name="heureFin" required />
+      </div>
+      <button type="submit">{{ editingDisponibilite ? 'Modifier' : 'Ajouter' }}</button>
+      <button type="button" *ngIf="editingDisponibilite" (click)="resetForm()">Annuler</button>
+    </form>
   </div>
 
-  <!-- Fallback message -->
-  <ng-template #noDisponibilites>
-    <p>Aucune disponibilité définie pour le moment.</p>
-  </ng-template>
-</div>
-<div class="container mt-5">
-  <h2>Définir vos disponibilités</h2>
-  <form (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="jour" class="form-label">Jour</label>
-      <input type="date" class="form-control" id="jour" [(ngModel)]="disponibilite.jour" name="jour" required>
-    </div>
-    <div class="mb-3">
-      <label for="heureDebut" class="form-label">Heure de début</label>
-      <input type="time" class="form-control" id="heureDebut" [(ngModel)]="disponibilite.heureDebut" name="heureDebut" required>
-    </div>
-    <div class="mb-3">
-      <label for="heureFin" class="form-label">Heure de fin</label>
-      <input type="time" class="form-control" id="heureFin" [(ngModel)]="disponibilite.heureFin" name="heureFin" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Ajouter</button>
-  </form>
-  <div class="mt-3">
-    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <div class="disponibilites-list">
+    <h2>Mes Disponibilités</h2>
+    <ul *ngIf="disponibilites.length > 0; else noDisponibilites">
+      <li *ngFor="let disp of disponibilites">
+        {{ disp.jour }} de {{ disp.heureDebut }} à {{ disp.heureFin }}
+        <span *ngIf="disp.estDisponible" class="status disponible">Disponible</span>
+        <span *ngIf="!disp.estDisponible" class="status indisponible">Indisponible</span>
+        <button *ngIf="disp.estDisponible && disp.id" (click)="editDisponibilite(disp)">Modifier</button>
+        <button *ngIf="disp.estDisponible && disp.id" (click)="deleteDisponibilite(disp.id)">Supprimer</button>
+      </li>
+    </ul>
+    <ng-template #noDisponibilites>
+      <p>Aucune disponibilité enregistrée.</p>
+    </ng-template>
   </div>
-  <button class="btn btn-secondary mt-3" routerLink="/home">Retour à l’accueil</button>
-  
+
+  <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 </div>

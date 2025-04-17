@@ -1,0 +1,10 @@
+/* src/app/profile/profile.component.css */
+.profile-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+.profile-info { border: 1px solid #ddd; padding: 15px; border-radius: 4px; }
+.edit-form, .delete-section { margin-top: 20px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; }
+.form-group input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+button { padding: 8px 15px; margin-right: 10px; }
+.delete-btn { background-color: #d9534f; color: white; border: none; }
+.error { color: red; margin-top: 10px; }

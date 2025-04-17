@@ -1,5 +1,7 @@
 package com.medicalapp.controller;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +63,14 @@ public class AuthController {
             logger.error("Login failed for email {}: {}", loginRequest.getEmail(), e.getMessage());
             return ResponseEntity.status(401).body("{\"message\": \"" + e.getMessage() + "\"}");
         }
+    }
+
+    // Nouveau endpoint pour le médecin connecté (optionnel)
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        return ResponseEntity.ok(user);
     }
 
     static class LoginResponse {

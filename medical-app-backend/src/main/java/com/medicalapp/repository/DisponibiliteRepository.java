@@ -9,4 +9,5 @@ import com.medicalapp.entity.Disponibilite;
 
 public interface DisponibiliteRepository extends JpaRepository<Disponibilite, Long> {
     List<Disponibilite> findByMedecinId(Long medecinId);
+    List<Disponibilite> findByMedecinIdAndEstDisponibleTrue(Long medecinId); // Disponibilités disponibles uniquement
 }

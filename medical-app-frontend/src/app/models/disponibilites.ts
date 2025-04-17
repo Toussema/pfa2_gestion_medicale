@@ -5,4 +5,5 @@ export interface Disponibilite {
     jour: string; // Format ISO, ex. "2025-04-08"
     heureDebut: string; // ex. "09:00"
     heureFin: string; // ex. "17:00"
+    estDisponible?: boolean; // Ajout du champ
   }

@@ -1,0 +1,40 @@
+/* src/app/doctors/doctors.component.css */
+.doctors-container { padding: 20px; }
+.search-bar { margin-bottom: 20px; }
+.search-bar input { 
+  padding: 8px; 
+  width: 300px; 
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+}
+.doctor-list { display: flex; flex-wrap: wrap; gap: 20px; }
+.doctor-card { 
+  border: 1px solid #ddd; 
+  padding: 15px; 
+  width: 250px; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+}
+.doctor-card:hover { 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+.doctor-card.selected { 
+  width: 500px; 
+  z-index: 10; 
+  position: relative; 
+  background: #fff; 
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+}
+.expanded-details { 
+  margin-top: 10px; 
+}
+.map-container { 
+  height: 300px; 
+  width: 100%; 
+  margin-top: 15px; 
+  border: 1px solid #ddd; /* Pour visualiser le conteneur */
+}
+button { 
+  padding: 8px; 
+  margin-top: 10px; 
+}

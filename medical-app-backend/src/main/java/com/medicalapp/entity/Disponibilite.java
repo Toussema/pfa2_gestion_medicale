@@ -36,6 +36,9 @@ public class Disponibilite {
     @Column(name = "heure_fin", nullable = false)
     private LocalTime heureFin;
 
+    @Column(name = "est_disponible")
+    private Boolean estDisponible = true; // Par défaut disponible
+
     // Constructeurs
     public Disponibilite() {}
 
@@ -57,4 +60,6 @@ public class Disponibilite {
     public void setHeureDebut(LocalTime heureDebut) { this.heureDebut = heureDebut; }
     public LocalTime getHeureFin() { return heureFin; }
     public void setHeureFin(LocalTime heureFin) { this.heureFin = heureFin; }
+    public Boolean getEstDisponible() { return estDisponible; }
+    public void setEstDisponible(Boolean estDisponible) { this.estDisponible = estDisponible; }
 }

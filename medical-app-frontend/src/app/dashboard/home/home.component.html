@@ -16,6 +16,11 @@
         <p class="mb-1"><strong>{{ currentUser?.name }}</strong> ({{ currentUser?.role }})</p>
         <button class="btn btn-outline-danger btn-sm" (click)="logout()">Se déconnecter</button>
         <button class="btn btn-primary" *ngIf="currentUser?.role === 'medecin'" routerLink="/disponibilites">Gérer mes disponibilités</button>
+        <!-- ✅ Nouveau bouton Gérer rendez-vous -->
+        <button class="btn btn-outline-secondary" routerLink="/rendez-vous">
+          Gérer mes rendez-vous
+        </button>
+        <button *ngIf="currentUser" [routerLink]="['/profile']">Mon Profil</button>
       </div>
     </ng-template>
   </div>
@@ -41,6 +46,10 @@
             </li>
             <li *ngIf="!doctor.disponibilites || doctor.disponibilites.length === 0">Aucune disponibilité définie</li>
           </ul>
+          <button *ngIf="currentUser?.role === 'patient'" (click)="goToRendezVous(doctor.id)">
+            Prendre un rendez-vous
+          </button>
+          <button [routerLink]="['/doctors']">Voir tous les médecins</button>
           </div>
         </div>
       </div>

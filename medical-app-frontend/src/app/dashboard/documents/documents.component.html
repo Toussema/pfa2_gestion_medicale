@@ -1,0 +1,43 @@
+<div class="documents-container">
+  <h1>📄 Gestion des Documents</h1>
+
+  <!-- Section d'envoi -->
+  <div *ngIf="rendezVousId" class="upload-section">
+    <h2>Envoyer un Document</h2>
+    <div class="upload-controls">
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="uploadDocument()">📤 Envoyer</button>
+    </div>
+  </div>
+
+  <!-- Liste des documents -->
+  <div class="documents-list">
+    <h2>📁 Documents Associés</h2>
+
+    <ul *ngIf="documents.length > 0; else noDocuments">
+      <li *ngFor="let doc of documents" class="document-item">
+        <div class="document-header">
+          <strong>{{ doc.fileName }}</strong>
+          <small>(Envoyé par {{ doc.sender.name }} le {{ doc.uploadDate | date:'medium' }})</small>
+          <p *ngIf="doc.consulted" style="color: green;">✅ Consulté</p>
+          <p *ngIf="!doc.consulted" style="color: red;">❌ Non consulté</p>
+        </div>
+
+        <div class="document-actions">
+          <button (click)="downloadDocument(doc.id, doc.fileName)">⬇️ Télécharger</button>
+          <button *ngIf="!doc.Consulted" (click)="markAsConsulted(doc.id)" [disabled]="doc.consulted">📖 Marquer comme consulté</button>
+        </div>
+
+        <div class="remarks-section">
+          <p *ngIf="doc.remarks"><strong>Remarques :</strong> {{ doc.remarks }}</p>
+          <input [(ngModel)]="remarksInput[doc.id]" placeholder="Ajouter une remarque" />
+          <button (click)="addRemarks(doc.id)">💬 Ajouter</button>
+        </div>
+      </li>
+    </ul>
+
+    <ng-template #noDocuments>
+      <p class="no-doc">Aucun document pour ce rendez-vous.</p>
+    </ng-template>
+  </div>
+</div>
