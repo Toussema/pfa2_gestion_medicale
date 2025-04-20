@@ -1,0 +1,63 @@
+<!-- Top Info Bar -->
+<div class="top-bar bg-dark text-white py-2">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex flex-wrap">
+        <div class="me-4">
+          <i class="fas fa-envelope me-2"></i> supportnovena.com
+        </div>
+        <div>
+          <i class="fas fa-map-marker-alt me-2"></i> Address Te 134/A, New York, USA
+        </div>
+      </div>
+      <div>
+        <i class="fas fa-phone me-2"></i> Call Now: 823-4565-13456
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3 text-primary" href="#">
+      NOVENA
+    </a>
+    
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" >Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/services" routerLinkActive="active">Services</a>
+        </li>
+        <li class="nav-item dropdown" [class.show]="isDepartmentOpen">
+          <a class="nav-link dropdown-toggle" (click)="toggleDepartment()">
+            Department
+          </a>
+          <ul class="dropdown-menu" [class.show]="isDepartmentOpen">
+            <li><a class="dropdown-item" routerLink="/departments">Departments</a></li>
+            <li><a class="dropdown-item" routerLink="/department-single">Department Single</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/doctors" routerLinkActive="active">Doctors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

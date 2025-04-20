@@ -1,10 +1,304 @@
-/* src/app/profile/profile.component.css */
-.profile-container { padding: 20px; max-width: 600px; margin: 0 auto; }
-.profile-info { border: 1px solid #ddd; padding: 15px; border-radius: 4px; }
-.edit-form, .delete-section { margin-top: 20px; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; }
-.form-group input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-button { padding: 8px 15px; margin-right: 10px; }
-.delete-btn { background-color: #d9534f; color: white; border: none; }
-.error { color: red; margin-top: 10px; }
+/* profile.component.css */
+.profile-section {
+    padding: 4rem 0;
+    background: #f4f9fc;
+  }
+  
+  .profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .profile-title {
+    font-size: 2.5rem;
+    color: #223a66;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .title-divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #e12454, #ff7b9c);
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+  
+  .profile-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 42, 106, 0.1);
+    padding: 2.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .profile-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .profile-info-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    background: rgba(244, 249, 252, 0.5);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-info-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 42, 106, 0.1);
+  }
+  
+  .info-label {
+    font-weight: 600;
+    color: #223a66;
+    min-width: 120px;
+    display: inline-block;
+  }
+  
+  .info-value {
+    color: #6F8BA4;
+    flex: 1;
+  }
+  
+  .profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  /* Boutons */
+  .btn-edit, .btn-delete, 
+  .btn-save, .btn-cancel,
+  .btn-confirm-delete, .btn-cancel-delete {
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-edit {
+    background: #223a66;
+    color: white;
+  }
+  
+  .btn-delete {
+    background: #e12454;
+    color: white;
+  }
+  
+  .btn-save {
+    background: #223a66;
+    color: white;
+  }
+  
+  .btn-cancel {
+    background: #6F8BA4;
+    color: white;
+  }
+  
+  .btn-confirm-delete {
+    background: #e12454;
+    color: white;
+  }
+  
+  .btn-cancel-delete {
+    background: #6F8BA4;
+    color: white;
+  }
+  
+  /* Hover effects */
+  .btn-edit:hover, .btn-save:hover {
+    background: #2a4a7e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34, 58, 102, 0.3);
+  }
+  
+  .btn-delete:hover, .btn-confirm-delete:hover {
+    background: #c21e48;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(225, 36, 84, 0.3);
+  }
+  
+  .btn-cancel:hover, .btn-cancel-delete:hover {
+    background: #5a6d8a;
+    transform: translateY(-2px);
+  }
+  
+  /* Formulaire */
+  .profile-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .edit-title {
+    color: #223a66;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .edit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    color: #223a66;
+  }
+  
+  .form-input {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    border-color: #223a66;
+    box-shadow: 0 0 0 3px rgba(34, 58, 102, 0.1);
+    outline: none;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  /* Section suppression */
+  .delete-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .delete-title {
+    color: #e12454;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .delete-warning {
+    background: rgba(225, 36, 84, 0.05);
+    border-left: 4px solid #e12454;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .delete-warning i {
+    color: #e12454;
+    font-size: 1.2rem;
+  }
+  
+  .delete-warning p {
+    margin: 0;
+    color: #6F8BA4;
+  }
+  
+  .delete-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .delete-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  /* Message d'erreur */
+  .error-message {
+    background: rgba(225, 36, 84, 0.05);
+    color: #e12454;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .profile-actions, 
+    .form-actions,
+    .delete-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .btn-edit, .btn-delete,
+    .btn-save, .btn-cancel,
+    .btn-confirm-delete, .btn-cancel-delete {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .profile-title {
+      font-size: 2rem;
+    }
+  }

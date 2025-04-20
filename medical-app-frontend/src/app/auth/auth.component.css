@@ -1,0 +1,448 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  /* Ajout de l'image de fond avec effet flou */
+  background-image: url('/img/image.jpg'); /* Remplacez par le chemin de votre image */
+  background-size: cover;
+  background-position: center;
+  background-repeat:no-repeat;  
+  position :relative;
+  
+  /* Centrage vertical et horizontal parfait */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Création de l'effet flou sur l'arrière-plan */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  background-attachment: fixed;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+/* Superposition semi-transparente pour améliorer la lisibilité */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  width: 850px;
+  max-width: 90%;
+  min-height: 550px;
+  z-index: 10;
+  
+  /* Garantir le centrage même avec des changements de taille */
+  margin: 0 auto;
+}
+
+.container p {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.3px;
+  margin: 20px 0;
+  color: #444;
+}
+
+.container span {
+  font-size: 14px;
+  color: #444;
+}
+
+.container a {
+  color: #0070f3;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0 10px;
+}
+
+.container a:hover {
+  text-decoration: underline;
+}
+
+.container button {
+  background-color: #0070f3;
+  color: white;
+  font-size: 14px;
+  padding: 12px 45px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.container button:hover {
+  background-color: #0051af;
+  transform: translateY(-2px);
+}
+
+.container button.hidden {
+  background-color: transparent;
+  border: 2px solid white;
+}
+
+.container button.hidden:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.container form {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.container.active .sign-in {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.sign-up {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.active .sign-up {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: move 0.6s;
+}
+
+@keyframes move {
+  0%, 49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50%, 100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+/* Style pour les champs mat-form-field */
+.mat-form-field {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.mat-form-field input, .mat-form-field select {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: #333;
+}
+
+.mat-form-field input:focus {
+  border-color: #0070f3;
+}
+
+.toggle-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.container.active .toggle-container {
+  transform: translateX(-100%);
+}
+
+.toggle {
+  background: linear-gradient(to right, #0070f3, #00a2ff);
+  color: white;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle {
+  transform: translateX(50%);
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+  transform: translateX(-200%);
+}
+
+.container.active .toggle-left {
+  transform: translateX(0);
+}
+
+.toggle-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.active .toggle-right {
+  transform: translateX(200%);
+}
+
+/* Ajout de la section pour les médecins */
+.medecin-fields {
+  width: 100%;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+}
+
+/* ------ NOUVELLES AMÉLIORATIONS POUR LES MESSAGES D'ERREUR ------ */
+
+/* Message d'erreur/succès amélioré */
+.message {
+  position: fixed; /* Fixe au lieu de absolute pour qu'il reste visible même en défilant */
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  max-width: 90%;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none; /* Permet de cliquer à travers le message */
+}
+
+.message.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto; /* Rétablit les interactions quand visible */
+}
+
+.message.error {
+  background-color: #fff1f0;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
+}
+
+.message.success {
+  background-color: #f0f9eb;
+  color: #67c23a;
+  border-left: 4px solid #67c23a;
+}
+
+/* Animation pour l'apparition du message */
+@keyframes messageAppear {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.message.visible {
+  animation: messageAppear 0.3s forwards;
+}
+
+/* Styles pour les erreurs de validation de champ */
+.mat-form-field.ng-invalid.ng-touched {
+  margin-bottom: 24px; /* Espace pour le message d'erreur */
+}
+
+.mat-form-field-subscript-wrapper {
+  margin-top: 0;
+}
+
+.mat-error {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 0;
+  color: #d32f2f;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Icône d'erreur avant le message */
+.mat-error::before {
+  content: "⚠️";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+/* Style pour indiquer visuellement les champs invalides */
+.mat-form-field.ng-invalid.ng-touched .mat-form-field-flex {
+  border-color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.03);
+}
+
+/* Animation de secousse pour les champs avec erreur lors de la soumission */
+@keyframes shake {
+  0%, 100% {transform: translateX(0);}
+  20%, 60% {transform: translateX(-5px);}
+  40%, 80% {transform: translateX(5px);}
+}
+
+.shake-error {
+  animation: shake 0.5s ease;
+}
+
+/* Style pour message d'erreur au niveau du formulaire */
+.form-error-message {
+  background-color: #fff1f0;
+  border: 1px solid #ffccc7;
+  color: #d32f2f;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 8px 0 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-error-message::before {
+  content: "⚠️";
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+/* Désactiver le bouton pendant la soumission */
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: translateY(0) !important;
+}
+
+/* Style amélioré pour les champs Material */
+.mat-form-field {
+  width: 100%;
+  margin: 12px 0;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0.8em;
+}
+
+/* Meilleur espacement pour les formulaires */
+form {
+  width: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+form h1 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+/* Animation de transition pour les champs de médecin */
+.medecin-fields {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Responsive design amélioré */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    min-height: 500px;
+  }
+  
+  .form-container {
+    width: 100%;
+  }
+  
+  .toggle-container {
+    display: none;
+  }
+  
+  .sign-in, .sign-up {
+    width: 100%;
+  }
+  
+  .container.active .sign-in {
+    display: none;
+  }
+  
+  .container button {
+    padding: 10px 30px;
+  }
+  
+  .message {
+    width: 80%;
+    bottom: 10px;
+  }
+}
