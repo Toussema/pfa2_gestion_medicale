@@ -175,18 +175,32 @@ export class AuthComponent implements OnInit {
   onSignup(): void {
     this.signupError = '';
     
-    // Marquer tous les champs comme touchés pour afficher les erreurs de validation
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
       this.addShakeEffect('sign-up');
       return;
     }
-
+  
     this.isSubmitting = true;
     
-    // Convertir les valeurs du formulaire en objet utilisateur
-    const userData = this.signupForm.value as MedecinUser;
-    
+    // Prepare the user data object
+    const formValue = this.signupForm.value;
+    const userData: any = {
+      name: formValue.name,
+      email: formValue.email,
+      password: formValue.password,
+      role: formValue.role
+    };
+  
+    // Only add doctor-specific fields if role is 'medecin'
+    if (formValue.role === 'medecin') {
+      userData.specialite = formValue.specialite;
+      userData.adresse = formValue.adresse;
+      userData.tel = formValue.tel;
+      userData.gsm = formValue.gsm;
+    }
+    console.log('Full signup payload:', JSON.stringify(userData, null, 2));
+
     this.authService.signup(userData).subscribe({
       next: () => {
         this.showToastMessage('Inscription réussie ! Vous pouvez maintenant vous connecter', 'success');
@@ -196,7 +210,12 @@ export class AuthComponent implements OnInit {
         });
       },
       error: (err) => {
+        console.error('Signup error:', err);
         this.signupError = err.error?.message || "Erreur lors de l'inscription. Veuillez réessayer.";
+        if (err.error?.errors) {
+          // Handle validation errors if the server returns them
+          this.signupError = Object.values(err.error.errors).join(', ');
+        }
         this.addShakeEffect('sign-up');
         this.isSubmitting = false;
       },

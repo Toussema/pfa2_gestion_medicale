@@ -7,11 +7,11 @@ import { isPlatformBrowser } from '@angular/common';
 
 // Définir l’intercepteur comme une fonction
 export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
-  const authService = inject(AuthService); // Injecter AuthService
-  const platformId = inject(PLATFORM_ID);  // Injecter PLATFORM_ID
+  const authService = inject(AuthService); 
+  const platformId = inject(PLATFORM_ID); 
 
   let authReq = req;
-  if (isPlatformBrowser(platformId)) { // Vérifier si on est côté client
+  if (isPlatformBrowser(platformId)) { 
     const token = authService.getToken();
     if (token) {
       authReq = req.clone({

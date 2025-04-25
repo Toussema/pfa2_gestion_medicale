@@ -1,56 +1,159 @@
 <!-- src/app/doctors/doctors.component.html -->
-<div class="doctors-container">
-  <h1>Tous les Médecins</h1>
-
-  <div class="search-bar">
-    <input 
-      type="text" 
-      [(ngModel)]="searchQuery" 
-      (input)="searchDoctors()" 
-      placeholder="Rechercher par nom ou ville..." 
-    />
+ <app-header></app-header>
+ <section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">All Doctors</span>
+          <h1 class="text-capitalize mb-5 text-lg">Specalized doctors</h1>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
+<div class="doctors-container">
+  <h1 class="title-animation">Tous les Médecins</h1>
+  <div class="col-12 text-center mb-5">
+    <div class="btn-group btn-group-toggle">
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'all'}">
+        <input type="radio" name="shuffle-filter" value="all" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> All Department
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat1'}">
+        <input type="radio" name="shuffle-filter" value="cat1" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Cardiology
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat2'}">
+        <input type="radio" name="shuffle-filter" value="cat2" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Dental
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat3'}">
+        <input type="radio" name="shuffle-filter" value="cat3" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Neurology
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat4'}">
+        <input type="radio" name="shuffle-filter" value="cat4" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Medicine
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat5'}">
+        <input type="radio" name="shuffle-filter" value="cat5" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Pediatric
+      </label>
+      <label class="btn" [ngClass]="{'active': selectedFilter === 'cat6'}">
+        <input type="radio" name="shuffle-filter" value="cat6" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Traumatology
+      </label>
+    </div>
+  </div>
+  <div class="search-bar">
+    <div class="search-input-container">
+      <i class="fas fa-search search-icon"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (input)="searchDoctors()" 
+        placeholder="Rechercher par nom ou spécialité..." 
+        class="search-input"
+      />
+    </div>
+  </div>
+
 
   <div class="doctor-list">
     <div 
       class="doctor-card" 
-      [ngClass]="{'selected': selectedDoctor?.id === doctor.id}" 
-      *ngFor="let doctor of filteredDoctors" 
+      [ngClass]="{'selected': selectedDoctor?.id === doctor.id, 'animate-enter': true}" 
+      *ngFor="let doctor of filteredDoctors; let i = index" 
       (click)="toggleDoctor(doctor)"
+      [@cardAnimation]="selectedDoctor?.id === doctor.id ? 'expanded' : 'collapsed'"
+      [style.animation-delay]="i * 0.1 + 's'"
     >
-      <h3>{{ doctor.name }}</h3>
-      <p>Spécialité: {{ doctor.specialite || 'Non spécifiée' }}</p>
-      <p>Adresse: {{ doctor.adresse || 'Non spécifiée' }}</p>
-
-      <div *ngIf="selectedDoctor?.id === doctor.id" class="expanded-details">
-        <p><strong>Email :</strong> {{ doctor.email }}</p>
-        <p><strong>Téléphone :</strong> {{ doctor.tel || 'Non spécifié' }}</p>
-        <p><strong>GSM :</strong> {{ doctor.gsm || 'Non spécifié' }}</p>
-        <div *ngIf="doctor.disponibilites && doctor.disponibilites.length > 0; else noAvailability">
-          <p><strong>Disponibilités :</strong></p>
-          <ul>
-            <li *ngFor="let disp of doctor.disponibilites">
-              {{ disp.jour }} {{ disp.heureDebut }} - {{ disp.heureFin }}
-            </li>
-          </ul>
+      <div class="doctor-header">
+        <div class="doctor-avatar">
+      
+          <i class="fas fa-user-md avatar-icon">    <img 
+            [src]="doctor.image ? doctor.image : 'assets/images/1.jpg'" 
+            alt="Doctor Avatar" 
+            class="avatar-image"
+          /></i>
         </div>
-        <ng-template #noAvailability>
-          <p>Aucune disponibilité pour le moment.</p>
-        </ng-template>
-        <button *ngIf="currentUser?.role === 'patient'" (click)="goToRendezVous(doctor.id); $event.stopPropagation()">
-          Prendre un rendez-vous
-        </button>
+        <div class="doctor-basic-info">
+          <h3>{{ doctor.name }}</h3>
+          <span class="specialty-badge">{{ doctor.specialite || 'Médecin généraliste' }}</span>
+        </div>
+      </div>
+
+      <div class="doctor-info">
+        <div class="info-row">
+          <i class="fas fa-map-marker-alt info-icon"></i>
+          <p>{{ doctor.adresse || 'Adresse non spécifiée' }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="selectedDoctor?.id === doctor.id" [@expandDetails]="'visible'" class="expanded-details">
+        <div class="divider"></div>
+        
+        <div class="contact-info">
+          <div class="info-row">
+            <i class="fas fa-envelope info-icon"></i>
+            <p>{{ doctor.email }}</p>
+          </div>
+          <div class="info-row">
+            <i class="fas fa-phone info-icon"></i>
+            <p>{{ doctor.tel || 'Non spécifié' }}</p>
+          </div>
+          <div class="info-row">
+            <i class="fas fa-mobile-alt info-icon"></i>
+            <p>{{ doctor.gsm || 'Non spécifié' }}</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        
+        <div class="availability-section">
+          <h4><i class="far fa-calendar-alt"></i> Disponibilités</h4>
+          <div *ngIf="doctor.disponibilites && doctor.disponibilites.length > 0; else noAvailability" class="availability-grid">
+            <div *ngFor="let disp of doctor.disponibilites" class="availability-item">
+              <span class="day">{{ disp.jour }}</span>
+              <span class="hours">{{ disp.heureDebut }} - {{ disp.heureFin }}</span>
+            </div>
+          </div>
+          <ng-template #noAvailability>
+            <p class="no-availability">Aucune disponibilité pour le moment.</p>
+          </ng-template>
+        </div>
+        
+        <div class="action-buttons">
+          <button 
+            *ngIf="currentUser?.role === 'patient'" 
+            (click)="goToRendezVous(doctor.id); $event.stopPropagation()"
+            class="appointment-button"
+          >
+            <i class="far fa-calendar-plus"></i> Prendre un rendez-vous
+          </button>
+        </div>
+        
         <div #map class="map-container" (click)="$event.stopPropagation()"></div>
       </div>
 
-      <div *ngIf="selectedDoctor?.id !== doctor.id && doctor.disponibilites && doctor.disponibilites.length > 0">
-        <p>Disponibilités :</p>
-        <ul>
-          <li *ngFor="let disp of doctor.disponibilites">
-            {{ disp.jour }} {{ disp.heureDebut }} - {{ disp.heureFin }}
-          </li>
-        </ul>
+      <div *ngIf="selectedDoctor?.id !== doctor.id && doctor.disponibilites && doctor.disponibilites.length > 0" class="availability-preview">
+        <div class="availability-badge">
+          <i class="far fa-clock"></i> {{ doctor.disponibilites.length }} créneaux disponibles
+        </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="filteredDoctors.length === 0" class="no-results">
+    <i class="fas fa-search-minus"></i>
+    <p>Aucun médecin ne correspond à votre recherche</p>
+  </div>
 </div>
+<section class="section cta-page">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+				<div class="cta-content">
+					<div class="divider mb-4"></div>
+					<h2 class="mb-5 text-lg">We are pleased to offer you the <span class="title-color">chance to have the healthy</span></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<app-footer></app-footer>
