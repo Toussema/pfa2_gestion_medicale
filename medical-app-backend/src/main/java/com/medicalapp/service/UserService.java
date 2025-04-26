@@ -247,4 +247,14 @@ public class UserService {
         document.setRemarks(remarks);
         return documentRepository.save(document);
     }
+     public Long findUserIdByUsername(String username) {
+        logger.info("Searching for user ID with username (email): {}", username);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> {
+                    logger.warn("No user found with username (email): {}", username);
+                    return new RuntimeException("Utilisateur non trouvé");
+                });
+        logger.info("Found user ID: {} for username (email): {}", user.getId(), username);
+        return user.getId();
+    }
 }
