@@ -16,6 +16,7 @@
         <p class="mb-1"><strong>{{ currentUser?.name }}</strong> ({{ currentUser?.role }})</p>
         <button class="btn btn-outline-danger btn-sm" (click)="logout()">Se déconnecter</button>
         <button class="btn btn-primary" *ngIf="currentUser?.role === 'medecin'" routerLink="/disponibilites">Gérer mes disponibilités</button>
+        <button class="btn btn-info" routerLink="/prediction">Prédire le Diabète</button>
         <!-- ✅ Nouveau bouton Gérer rendez-vous -->
         <button class="btn btn-outline-secondary" routerLink="/rendez-vous">
           Gérer mes rendez-vous

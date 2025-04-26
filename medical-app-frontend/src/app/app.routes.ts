@@ -11,6 +11,7 @@ import { DocumentsComponent } from './dashboard/documents/documents.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { AboutComponent} from './about/about.component';
+import { PredictionComponent } from './prediction/prediction.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const appRoutes: Routes = [
   {path:'footer',component:FooterComponent},
   {path:'header',component:HeaderComponent},
   {path:'about',component:AboutComponent},
+  { path: 'prediction', component: PredictionComponent },
 
 
 ];

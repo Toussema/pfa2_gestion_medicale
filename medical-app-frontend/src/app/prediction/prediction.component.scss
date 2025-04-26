@@ -1,0 +1,146 @@
+/* Variables pour la cohérence */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+  --border-radius: 8px;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur principal */
+.prediction-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Titre */
+.title {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Formulaire */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.required {
+  color: var(--danger-color);
+}
+
+input,
+select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--primary-color);
+}
+
+button.submit-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(73, 9, 249);
+  color: rgb(243, 248, 246);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover {
+  background-color: rgb(161, 151, 251);
+}
+
+button.submit-btn:disabled {
+  background-color: #0f83e8;
+  cursor: not-allowed;
+}
+
+/* Résultat */
+.result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.result-low {
+  border: 2px solid #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.result-medium {
+  border: 2px solid #ffc107;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.result-high {
+  border: 2px solid  #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Erreur */
+.error {
+  color: var(--danger-color);
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
+  background-color: rgba(220, 53, 69, 0.1);
+  padding: 0.75rem;
+  border-radius: var(--border-radius);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .prediction-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+
+  button.submit-btn {
+    width: 100%;
+  }
+}
