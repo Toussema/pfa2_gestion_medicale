@@ -1,86 +1,95 @@
-<!-- src/app/rendez-vous/rendez-vous.component.html -->
-<div class="rendez-vous-container container py-4">
-  <h2 class="text-center mb-4">📅 Gestion des Rendez-vous</h2>
+<app-header></app-header>
 
-  <div class="text-end mb-3">
-    <button class="btn btn-outline-primary" routerLink="/home">🏠 Retour à l’accueil</button>
-  </div>
 
-  <!-- Pour les patients : Prise de rendez-vous -->
-  <div *ngIf="currentUser?.role === 'patient' && medecinId" class="card shadow-sm p-4 mb-4">
-    <h4 class="mb-2">Rendez-vous avec <strong>{{ doctorDetails?.name }}</strong></h4>
-    <p><strong>Spécialité:</strong> {{ doctorDetails?.specialite }}</p>
-    <div class="mb-3">
-      <label class="form-label">Choisir une disponibilité:</label>
-      <select class="form-select" [(ngModel)]="selectedDisponibiliteId">
-        <option *ngFor="let disp of disponibilites" [value]="disp.id">
-          {{ disp.jour }} | {{ disp.heureDebut }} - {{ disp.heureFin }}
-        </option>
-      </select>
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Book your Seat</span>
+          <h1 class="text-capitalize mb-5 text-lg">Appoinment</h1>
+
+          <!-- <ul class="list-inline breadcumb-nav">
+            <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
+            <li class="list-inline-item"><span class="text-white">/</span></li>
+            <li class="list-inline-item"><a href="#" class="text-white-50">Book your Seat</a></li>
+          </ul> -->
+        </div>
+      </div>
     </div>
-    <button class="btn btn-success" (click)="prendreRendezVous()">Prendre le rendez-vous</button>
   </div>
+</section>
 
-  <!-- Historique des rendez-vous -->
-  <h4 class="mb-3">
-    {{ currentUser?.role === 'patient' ? '🗓️ Mes Rendez-vous' : '📋 Rendez-vous Patients' }}
-  </h4>
 
-  <div *ngIf="rendezVousList.length > 0; else noRendezVous" class="table-responsive">
-    <table class="table table-striped table-hover align-middle">
-      <thead class="table-dark">
-        <tr>
-          <th *ngIf="currentUser?.role === 'patient'">👨‍⚕️ Médecin</th>
-          <th *ngIf="currentUser?.role === 'medecin'">🧑‍🤝‍🧑 Patient</th>
-          <th>📆 Jour</th>
-          <th>⏰ Heure</th>
-          <th>📌 Statut</th>
-          <th>⚙️ Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let rv of rendezVousList">
-          <td *ngIf="currentUser?.role === 'patient'">{{ rv.medecin.name }}</td>
-          <td *ngIf="currentUser?.role === 'medecin'">{{ rv.patient.name }}</td>
-          <td>{{ rv.disponibilite.jour }}</td>
-          <td>{{ rv.disponibilite.heureDebut }} - {{ rv.disponibilite.heureFin }}</td>
-          <td>
-            <span class="badge" [ngClass]="{
-              'bg-secondary': rv.statut === 'EN_ATTENTE',
-              'bg-success': rv.statut === 'CONFIRME',
-              'bg-danger': rv.statut === 'ANNULE'
-            }">{{ rv.statut }}</span>
-          </td>
-          <td>
-            <div class="btn-group" role="group">
-              <button *ngIf="currentUser?.role === 'patient' && rv.statut === 'EN_ATTENTE'" 
-                      class="btn btn-outline-warning btn-sm" 
-                      (click)="modifierRendezVous(rv)">
-                ✏️ Modifier
-              </button>
-              <button *ngIf="rv.statut !== 'ANNULE'" 
-                      class="btn btn-outline-danger btn-sm" 
-                      (click)="annulerRendezVous(rv.id!)">
-                ❌ Annuler
-              </button>
-              <button *ngIf="currentUser?.role === 'medecin' && rv.statut === 'EN_ATTENTE'" 
-                      class="btn btn-outline-success btn-sm" 
-                      (click)="confirmerRendezVous(rv.id!)">
-                ✅ Confirmer
-              </button>
-              <button *ngIf="rv.statut === 'CONFIRME'" 
-                      class="btn btn-outline-info btn-sm" 
-                      (click)="goToDocuments(rv.id!)">
-                📁 Gérer les Documents
-              </button>
+<!-- src/app/rendez-vous/rendez-vous.component.html -->
+<section class="appoinment section">
+  <div class="container py-5">
+    <!-- Header and Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>Gestion des Rendez-vous</h2>
+      <a class="btn btn-main btn-round-full" routerLink="/home"><i class="icofont-home mr-1"></i>Retour</a>
+    </div>
+
+    <!-- Appointment Booking for Patients -->
+    <div *ngIf="currentUser?.role === 'patient' && medecinId" class="row">
+      <!-- Emergency Contact -->
+      <div class="col-lg-4">
+        <div class="mt-3">
+          <div class="feature-icon mb-3">
+            <img src="assets/image.png" alt="Service d'Urgence" class="support-image">
+          </div>
+          <span class="h3">Service d'Urgence</span>
+          <h2 class="text-color mt-3">+216 55 44 33 22</h2>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <div class="col-lg-8">
+        <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
+          <h2 class="mb-2 title-color">Prendre un rendez-vous</h2>
+          <p class="mb-4">Prenez un rendez-vous avec <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
+          <form class="appoinment-form">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <select class="form-control" [(ngModel)]="selectedDisponibiliteId" name="disponibilite">
+                    <option disabled selected >Choisir une disponibilité</option>
+                    <option *ngFor="let disp of disponibilites" [value]="disp.id">
+                      {{ disp.jour }} | {{ disp.heureDebut }} - {{ disp.heureFin }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" value="{{ currentUser?.name }}" disabled placeholder="Nom complet">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" value="{{ doctorDetails?.specialite }}" disabled placeholder="Spécialité">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="number" class="form-control" value="{{ currentUser?.phone }}"  placeholder="Numéro de téléphone">
+                </div>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            <div class="form-group-2 mb-4">
+              <textarea class="form-control" rows="6"  name="message" placeholder="Votre message (facultatif)"></textarea>
+            </div>
+            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Prendre le rendez-vous<i class="icofont-simple-right ml-2"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
 
-  <ng-template #noRendezVous>
-    <div class="alert alert-info mt-3">Aucun rendez-vous pour le moment.</div>
-  </ng-template>
-</div>
+
+    <ng-template #noRendezVous>
+      <div class="alert alert-info mt-3">Aucun rendez-vous pour le moment.</div>
+    </ng-template>
+  </div>
+</section>
+<app-footer></app-footer>

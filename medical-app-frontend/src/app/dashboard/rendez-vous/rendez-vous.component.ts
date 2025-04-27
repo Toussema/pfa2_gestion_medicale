@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { RendezVous } from '../../models/rendez-vous';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-rendez-vous',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, HeaderComponent, FooterComponent],
   templateUrl: './rendez-vous.component.html',
   styleUrls: ['./rendez-vous.component.css']
 })
@@ -53,7 +55,9 @@ export class RendezVousComponent implements OnInit {
   loadDisponibilites(): void {
     if (this.medecinId) {
       this.authService.getDisponibilitesByMedecinId(this.medecinId).subscribe({
-        next: (disponibilites) => { this.disponibilites = disponibilites.filter(d => d.estDisponible); } // Filtrer les disponibilités disponibles
+        next: (disponibilites) => {
+          this.disponibilites = disponibilites.filter(d => d.estDisponible);
+        }
       });
     }
   }
@@ -72,20 +76,33 @@ export class RendezVousComponent implements OnInit {
 
   prendreRendezVous(): void {
     if (this.medecinId && this.selectedDisponibiliteId) {
-      this.authService.prendreRendezVous(this.medecinId, this.selectedDisponibiliteId).subscribe({
-        next: () => {
-          this.loadRendezVous();
-          this.loadDisponibilites(); // Recharger pour mettre à jour la liste
-          this.selectedDisponibiliteId = null;
-        },
-        error: (err) => console.error('Erreur lors de la prise de rendez-vous', err)
-      });
+      // Afficher une alerte de confirmation
+      const confirmation = confirm('Voulez-vous confirmer la prise de ce rendez-vous ?');
+      if (confirmation) {
+        this.authService.prendreRendezVous(this.medecinId, this.selectedDisponibiliteId).subscribe({
+          next: () => {
+            // Afficher un message de succès
+            alert('Votre rendez-vous est en attente de confirmation par le médecin.');
+            // Recharger les données
+            this.loadRendezVous();
+            this.loadDisponibilites();
+            this.selectedDisponibiliteId = null;
+            // Rediriger vers la page d'accueil
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            console.error('Erreur lors de la prise de rendez-vous', err);
+            alert('Une erreur est survenue lors de la prise de rendez-vous.');
+          }
+        });
+      }
+    } else {
+      alert('Veuillez sélectionner une disponibilité.');
     }
   }
 
   modifierRendezVous(rendezVous: RendezVous): void {
     if (rendezVous.statut === 'EN_ATTENTE') {
-      // Logique pour modifier (par exemple, changer la disponibilité)
       this.selectedDisponibiliteId = rendezVous.disponibilite.id;
     }
   }
@@ -101,7 +118,7 @@ export class RendezVousComponent implements OnInit {
       next: () => {
         this.loadRendezVous();
         if (this.currentUser.role === 'patient' && this.medecinId) {
-          this.loadDisponibilites(); // Recharger les disponibilités pour refléter l’indisponibilité
+          this.loadDisponibilites();
         }
       }
     });

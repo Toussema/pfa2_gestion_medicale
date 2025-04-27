@@ -47,7 +47,7 @@
         type="text" 
         [(ngModel)]="searchQuery" 
         (input)="searchDoctors()" 
-        placeholder="Rechercher par nom ou spécialité..." 
+        placeholder="Rechercher par nom ou ville..." 
         class="search-input"
       />
     </div>
@@ -95,11 +95,23 @@
           </div>
           <div class="info-row">
             <i class="fas fa-phone info-icon"></i>
-            <p>{{ doctor.tel || 'Non spécifié' }}</p>
+            <p>
+              
+              <span *ngIf="!doctor.tel || doctor.tel === 'Non spécifié'">Non spécifié</span>
+              <a href="tel:{{ doctor.tel }}" *ngIf="doctor.tel && doctor.tel !== 'Non spécifié'" class="phone-link">
+                <img src="assets/images/phone-icon.png" alt="Call" class="call-icon" /> {{ doctor.tel }}
+              </a>
+            </p>
           </div>
           <div class="info-row">
             <i class="fas fa-mobile-alt info-icon"></i>
-            <p>{{ doctor.gsm || 'Non spécifié' }}</p>
+            <p>
+             
+              <span *ngIf="!doctor.gsm || doctor.gsm === 'Non spécifié'">Non spécifié</span>
+               <a href="tel:{{ doctor.gsm }}" *ngIf="doctor.gsm && doctor.gsm !== 'Non spécifié'" class="phone-link">
+                <img src="assets/images/phone-icon.png" alt="Call" class="call-icon" /> {{ doctor.gsm }}
+              </a>
+            </p>
           </div>
         </div>
 

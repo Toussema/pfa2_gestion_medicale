@@ -437,3 +437,38 @@
   height: 100%;
   object-fit: cover;
 }
+.phone-link {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Space between icon and number */
+}
+
+.phone-link:hover {
+  color: #0056b3; /* Hover color */
+  text-decoration: underline;
+}
+
+.call-icon {
+  font-size: 1.2em; /* Adjust icon size */
+  color: #28a745; /* Green icon color, or your preferred color */
+}
+.phone-link {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Space between icon and number */
+}
+
+.phone-link:hover {
+  color: #0056b3; /* Hover color */
+  text-decoration: underline;
+}
+
+.call-icon {
+  width: 20px; /* Adjust size as needed */
+  height: 20px;
+  vertical-align: middle; /* Align with text */
+}
