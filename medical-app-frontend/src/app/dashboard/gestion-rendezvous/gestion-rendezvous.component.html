@@ -1,0 +1,131 @@
+<app-header></app-header>
+
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Gestion des Rendez-vous</span>
+          <h1 class="text-capitalize mb-5 text-lg">Vos Rendez-vous</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="appoinment section">
+  <div class="container py-5">
+    <!-- Header and Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>Gestion des Rendez-vous</h2>
+      <a class="btn btn-main btn-round-full" routerLink="/home"><i class="icofont-home mr-1"></i>Retour</a>
+    </div>
+
+    <!-- Appointment Booking for Patients -->
+    <div *ngIf="currentUser?.role === 'patient' && medecinId" class="row">
+      <!-- Emergency Contact -->
+      <div class="col-lg-4">
+        <div class="mt-3">
+          <div class="feature-icon mb-3">
+            <img src="assets/image.png" alt="Service d'Urgence" class="support-image">
+          </div>
+          <span class="h3">Service d'Urgence</span>
+          <h2 class="text-color mt-3">+216 55 44 33 22</h2>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <div class="col-lg-8">
+        <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
+          <h2 class="mb-2 title-color">Prendre un rendez-vous</h2>
+          <p class="mb-4">Prenez un rendez-vous avec <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
+          <form class="appoinment-form">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <select class="form-control" [(ngModel)]="selectedDisponibiliteId" name="disponibilite">
+                    <option disabled selected>Choisir une disponibilité</option>
+                    <option *ngFor="let disp of disponibilites" [value]="disp.id">
+                      {{ disp.jour }} | {{ disp.heureDebut }} - {{ disp.heureFin }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Prendre le rendez-vous<i class="icofont-simple-right ml-2"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historique des rendez-vous -->
+    <div class="row mt-5">
+      <div class="col-lg-12">
+        <h2 class="title-color mb-4">
+          {{ currentUser?.role === 'patient' ? 'Mes Rendez-vous' : 'Rendez-vous Patients' }}
+        </h2>
+        
+        <div *ngIf="rendezVousList.length > 0; else noRendezVous" class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th *ngIf="currentUser?.role === 'patient'">Médecin</th>
+                <th *ngIf="currentUser?.role === 'medecin'">Patient</th>
+                <th>Jour</th>
+                <th>Heure</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rv of rendezVousList">
+                <td *ngIf="currentUser?.role === 'patient'">{{ rv.medecin.name }}</td>
+                <td *ngIf="currentUser?.role === 'medecin'">{{ rv.patient.name }}</td>
+                <td>{{ rv.disponibilite.jour }}</td>
+                <td>{{ rv.disponibilite.heureDebut }} - {{ rv.disponibilite.heureFin }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'bg-secondary': rv.statut === 'EN_ATTENTE',
+                    'bg-success': rv.statut === 'CONFIRME',
+                    'bg-danger': rv.statut === 'ANNULE'
+                  }">{{ rv.statut }}</span>
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <button *ngIf="currentUser?.role === 'patient' && rv.statut === 'EN_ATTENTE'" 
+                            class="btn btn-main btn-round" 
+                            (click)="modifierRendezVous(rv)">
+                      Modifier
+                    </button>
+                    <button *ngIf="rv.statut !== 'ANNULE'" 
+                            class="btn btn-main btn-round" 
+                            (click)="annulerRendezVous(rv.id!)">
+                      Annuler
+                    </button>
+                    <button *ngIf="currentUser?.role === 'medecin' && rv.statut === 'EN_ATTENTE'" 
+                            class="btn btn-main btn-round" 
+                            (click)="confirmerRendezVous(rv.id!)">
+                      Confirmer
+                    </button>
+                    <button *ngIf="rv.statut === 'CONFIRME'" 
+                            class="btn btn-main btn-round" 
+                            (click)="goToDocuments(rv.id!)">
+                      Gérer les Documents
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <ng-template #noRendezVous>
+          <div class="alert alert-info mt-3">Aucun rendez-vous pour le moment.</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

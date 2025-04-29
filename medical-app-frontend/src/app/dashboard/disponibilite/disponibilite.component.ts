@@ -1,3 +1,5 @@
+import { FooterComponent } from './../../shared/footer/footer.component';
+import { HeaderComponent } from './../../shared/header/header.component';
 // src/app/dashboard/disponibilite/disponibilite.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -5,11 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Disponibilite } from '../../models/disponibilites';
-
 @Component({
   selector: 'app-disponibilite',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,FooterComponent,HeaderComponent],
   templateUrl: './disponibilite.component.html',
   styleUrls: ['./disponibilite.component.css']
 })
