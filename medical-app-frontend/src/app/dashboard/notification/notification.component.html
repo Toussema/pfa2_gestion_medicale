@@ -1,0 +1,29 @@
+<!-- src/app/dashboard/notification/notification.component.html -->
+<div class="notification-container">
+    <div class="notification-header">
+      <h3>Notifications</h3>
+      <div class="notification-badge">
+        <span>{{ unreadNotifications.length }}</span>
+      </div>
+    </div>
+  
+    <div class="notification-list">
+      <div *ngIf="notifications.length === 0" class="no-notifications">
+        Aucune notification.
+      </div>
+      <div *ngFor="let notification of notifications" class="notification-item" [ngClass]="{'unread': !notification.isRead}">
+        <div class="notification-content">
+          <p>{{ notification.message }}</p>
+          <small>{{ notification.createdAt | date:'medium' }}</small>
+        </div>
+        <div class="notification-actions">
+          <button *ngIf="!notification.isRead" class="btn btn-sm btn-primary" (click)="markAsRead(notification.id)">
+            Marquer comme lu
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteNotification(notification.id)">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

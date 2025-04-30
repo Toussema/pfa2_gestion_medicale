@@ -17,7 +17,8 @@ import com.medicalapp.repository.DisponibiliteRepository;
 import com.medicalapp.repository.DocumentRepository;
 import com.medicalapp.repository.RendezVousRepository;
 import com.medicalapp.repository.UserRepository;
-
+import com.medicalapp.entity.Notification;
+import com.medicalapp.repository.NotificationRepository;
 
 @Service
 public class UserService {
@@ -37,6 +38,8 @@ public class UserService {
 
     @Autowired
     private DocumentRepository documentRepository;
+      @Autowired
+    private NotificationRepository notificationRepository;
 
     public User registerUser(User user) {
         logger.info("Attempting to register user with email: {}", user.getEmail());
@@ -148,7 +151,21 @@ public class UserService {
         rendezVous.setDatePrise(LocalDateTime.now());
         rendezVous.setStatut(RendezVous.StatutRendezVous.EN_ATTENTE);
 
-        return RendezVousRepository.save(rendezVous);
+        RendezVous savedRendezVous = RendezVousRepository.save(rendezVous);
+
+        // Créer une notification pour le médecin
+        String message = String.format(
+            "Le patient %s a pris un rendez-vous le %s de %s à %s.",
+            patient.getName(),
+            disponibilite.getJour(),
+            disponibilite.getHeureDebut(),
+            disponibilite.getHeureFin()
+        );
+        Notification notification = new Notification(medecinId, message);
+        notificationRepository.save(notification);
+        logger.info("Notification créée pour le médecin {}: {}", medecinId, message);
+
+        return savedRendezVous;
     }
 
     public List<RendezVous> getRendezVousByPatientId(Long patientId) {
@@ -159,19 +176,29 @@ public class UserService {
         return RendezVousRepository.findByMedecinId(medecinId);
     }
 
-    public RendezVous updateRendezVous(Long id, RendezVous.StatutRendezVous statut) {
-        RendezVous rendezVous = RendezVousRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Rendez-vous non trouvé"));
-        rendezVous.setStatut(statut);
+ public RendezVous updateRendezVous(Long rendezVousId, RendezVous.StatutRendezVous nouveauStatut) {
+        RendezVous rendezVous = RendezVousRepository.findById(rendezVousId)
+            .orElseThrow(() -> new RuntimeException("Rendez-vous not found with id: " + rendezVousId));
 
-        // Si le rendez-vous est confirmé, marquer la disponibilité comme indisponible
-        if (statut == RendezVous.StatutRendezVous.CONFIRME) {
-            Disponibilite disponibilite = rendezVous.getDisponibilite();
-            disponibilite.setEstDisponible(false);
-            disponibiliteRepository.save(disponibilite);
+        // Mettre à jour le statut
+        rendezVous.setStatut(nouveauStatut);
+        RendezVousRepository.save(rendezVous);
+
+        // Si le statut est CONFIRME ou ANNULE, envoyer une notification au patient
+        if (nouveauStatut == RendezVous.StatutRendezVous.CONFIRME || nouveauStatut == RendezVous.StatutRendezVous.ANNULE) {
+            Long patientId = rendezVous.getPatient().getId();
+            String message = String.format(
+                "Votre rendez-vous avec le Dr %s le %s de %s à %s a été %s.",
+                rendezVous.getMedecin().getName(),
+                rendezVous.getDisponibilite().getJour(),
+                rendezVous.getDisponibilite().getHeureDebut(),
+                rendezVous.getDisponibilite().getHeureFin(),
+                nouveauStatut == RendezVous.StatutRendezVous.CONFIRME ? "confirmé" : "annulé"
+            );
+            createNotification(patientId, message);
         }
 
-        return RendezVousRepository.save(rendezVous);
+        return rendezVous;
     }
 
     public User updateUser(String email, String password, User updatedUser) {
@@ -256,5 +283,35 @@ public class UserService {
                 });
         logger.info("Found user ID: {} for username (email): {}", user.getId(), username);
         return user.getId();
+    }
+    public List<Notification> getNotificationsByUserId(Long userId) {
+        return notificationRepository.findByUserId(userId);
+    }
+
+    public List<Notification> getUnreadNotificationsByUserId(Long userId) {
+        return notificationRepository.findByUserIdAndIsReadFalse(userId);
+    }
+
+    public void markNotificationAsRead(Long notificationId, Long userId) {
+        Notification notification = notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new RuntimeException("Notification not found with id: " + notificationId));
+        if (!notification.getUserId().equals(userId)) {
+            throw new RuntimeException("Unauthorized: You can only mark your own notifications as read");
+        }
+        notification.setRead(true);
+        notificationRepository.save(notification);
+    }
+
+    public void deleteNotification(Long notificationId, Long userId) {
+        Notification notification = notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new RuntimeException("Notification not found with id: " + notificationId));
+        if (!notification.getUserId().equals(userId)) {
+            throw new RuntimeException("Unauthorized: You can only delete your own notifications");
+        }
+        notificationRepository.delete(notification);
+    }
+   public void createNotification(Long userId, String message) {
+        Notification notification = new Notification(userId, message);
+        notificationRepository.save(notification);
     }
 }

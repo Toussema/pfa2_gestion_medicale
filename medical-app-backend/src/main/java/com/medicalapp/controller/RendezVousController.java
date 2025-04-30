@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.medicalapp.entity.RendezVous;
 import com.medicalapp.entity.User;
 import com.medicalapp.service.UserService;
+import com.medicalapp.entity.Notification;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -62,4 +64,37 @@ public class RendezVousController {
         RendezVous updatedRendezVous = userService.updateRendezVous(id, nouveauStatut);
         return ResponseEntity.ok(updatedRendezVous);
     }
+     @GetMapping("/notifications")
+    public ResponseEntity<List<Notification>> getNotifications(Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        return ResponseEntity.ok(userService.getNotificationsByUserId(user.getId()));
+    }
+
+    @GetMapping("/notifications/unread")
+    public ResponseEntity<List<Notification>> getUnreadNotifications(Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        return ResponseEntity.ok(userService.getUnreadNotificationsByUserId(user.getId()));
+    }
+ @PutMapping("/notifications/{id}/read")
+    public ResponseEntity<Void> markNotificationAsRead(
+            @PathVariable Long id,
+            Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        userService.markNotificationAsRead(id, user.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/notifications/{id}")
+    public ResponseEntity<Void> deleteNotification(
+            @PathVariable Long id,
+            Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        userService.deleteNotification(id, user.getId());
+        return ResponseEntity.noContent().build();
+    }
+
 }

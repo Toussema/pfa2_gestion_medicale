@@ -13,7 +13,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { AboutComponent} from './about/about.component';
 import { PredictionComponent } from './prediction/prediction.component';
 import { GestionRendezvousComponent } from './dashboard/gestion-rendezvous/gestion-rendezvous.component';
-
+import { NotificationComponent } from './dashboard/notification/notification.component';
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -30,5 +30,6 @@ export const appRoutes: Routes = [
   {path:'header',component:HeaderComponent},
   {path:'about',component:AboutComponent},
   { path: 'prediction', component: PredictionComponent },
-  {path: 'gestion-rendez-vous',component:GestionRendezvousComponent}
+  {path: 'gestion-rendez-vous',component:GestionRendezvousComponent},
+  { path: 'notifications', component: NotificationComponent }
 ];
