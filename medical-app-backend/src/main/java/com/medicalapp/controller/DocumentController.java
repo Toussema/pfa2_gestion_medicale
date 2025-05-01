@@ -51,6 +51,41 @@ public class DocumentController {
             file.getContentType(),
             file.getBytes()
         );
+         // Récupérer le rendez-vous associé au document
+        RendezVous rendezVous = document.getRendezVous();
+
+        // Déterminer le destinataire de la notification
+        Long recipientId;
+        String message;
+        if ("patient".equals(sender.getRole())) {
+            // Si l'expéditeur est un patient, envoyer une notification au médecin
+            recipientId = rendezVous.getMedecin().getId();
+            message = String.format(
+                "Le patient %s vous a envoyé un document (%s) pour le rendez-vous du %s de %s à %s.",
+                sender.getName(),
+                document.getFileName(),
+                rendezVous.getDisponibilite().getJour(),
+                rendezVous.getDisponibilite().getHeureDebut(),
+                rendezVous.getDisponibilite().getHeureFin()
+            );
+        } else if ("medecin".equals(sender.getRole())) {
+            // Si l'expéditeur est un médecin, envoyer une notification au patient
+            recipientId = rendezVous.getPatient().getId();
+            message = String.format(
+                "Le Dr %s vous a envoyé un document (%s) pour le rendez-vous du %s de %s à %s.",
+                sender.getName(),
+                document.getFileName(),
+                rendezVous.getDisponibilite().getJour(),
+                rendezVous.getDisponibilite().getHeureDebut(),
+                rendezVous.getDisponibilite().getHeureFin()
+            );
+        } else {
+            throw new RuntimeException("Rôle utilisateur non valide : " + sender.getRole());
+        }
+
+        // Créer une notification pour le destinataire
+        userService.createNotification(recipientId, message);
+
         return ResponseEntity.ok(document);
     }
 
