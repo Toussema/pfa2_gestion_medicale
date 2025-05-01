@@ -20,7 +20,7 @@
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold fs-3 text-primary" href="#">
+    <a class="navbar-brand fw-bold fs-3 text-primary" routerLink="/home">
       NOVENA
     </a>
     
@@ -31,31 +31,33 @@
     <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active" >Home</a>
+          <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/services" routerLinkActive="active">Services</a>
+          <a class="nav-link" routerLink="/doctors" routerLinkActive="active">Doctors</a>
         </li>
         <li class="nav-item dropdown" [class.show]="isDepartmentOpen">
-          <a class="nav-link dropdown-toggle" (click)="toggleDepartment()">
-            Department
+          <a class="nav-link dropdown-toggle"  role="button" aria-expanded="false">
+            Services
           </a>
           <ul class="dropdown-menu" [class.show]="isDepartmentOpen">
-            <li><a class="dropdown-item" routerLink="/departments">Departments</a></li>
-            <li><a class="dropdown-item" routerLink="/department-single">Department Single</a></li>
+            <li *ngIf="isDoctor"><a class="dropdown-item" routerLink="/disponibilites">Disponibilités</a></li>
+            <li><a class="dropdown-item" routerLink="/gestion-rendez-vous">Gestion Rendez-vous</a></li>
+            <li><a class="dropdown-item" routerLink="/prediction">Prédiction</a></li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/doctors" routerLinkActive="active">Doctors</a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+          <a class="nav-link" routerLink="/notifications" routerLinkActive="active">Notifications</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+          <a class="nav-link" *ngIf="!isLoggedIn" routerLink="/auth" routerLinkActive="active">Login</a>
+          <a class="nav-link" *ngIf="isLoggedIn" (click)="logout()" style="cursor: pointer;">Logout</a>
         </li>
       </ul>
     </div>

@@ -1,43 +1,99 @@
-<div class="documents-container">
-  <h1>📄 Gestion des Documents</h1>
+<app-header></app-header>
 
-  <!-- Section d'envoi -->
-  <div *ngIf="rendezVousId" class="upload-section">
-    <h2>Envoyer un Document</h2>
-    <div class="upload-controls">
-      <input type="file" (change)="onFileSelected($event)" />
-      <button (click)="uploadDocument()">📤 Envoyer</button>
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Documents médicaux</span>
+          <h1 class="text-capitalize mb-5 text-lg">Gestion des Documents</h1>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- Liste des documents -->
-  <div class="documents-list">
-    <h2>📁 Documents Associés</h2>
+<section class="documents-section section">
+  <div class="container py-5">
+    <!-- Header and Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="title-color"><i class="icofont-file-document mr-2"></i>Gestion des Documents</h2>
+      <a class="btn btn-main btn-round-full" routerLink="/rendez-vous"><i class="icofont-arrow-left mr-1"></i>Retour aux Rendez-vous</a>
+    </div>
 
-    <ul *ngIf="documents.length > 0; else noDocuments">
-      <li *ngFor="let doc of documents" class="document-item">
-        <div class="document-header">
-          <strong>{{ doc.fileName }}</strong>
-          <small>(Envoyé par {{ doc.sender.name }} le {{ doc.uploadDate | date:'medium' }})</small>
-          <p *ngIf="doc.consulted" style="color: green;">✅ Consulté</p>
-          <p *ngIf="!doc.consulted" style="color: red;">❌ Non consulté</p>
+    <!-- Section d'envoi -->
+    <div *ngIf="rendezVousId" class="row mb-5">
+      <div class="col-lg-12">
+        <div class="upload-wrap">
+          <h3 class="title-color mb-3">Envoyer un Document</h3>
+          <div class="d-flex align-items-center">
+            <div class="form-group mr-3 flex-grow-1 mb-0">
+              <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            </div>
+            <button class="btn btn-main btn-round-full" (click)="uploadDocument()">
+              <i class="icofont-upload-alt mr-1"></i>Envoyer
+            </button>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="document-actions">
-          <button (click)="downloadDocument(doc.id, doc.fileName)">⬇️ Télécharger</button>
-          <button *ngIf="!doc.Consulted" (click)="markAsConsulted(doc.id)" [disabled]="doc.consulted">📖 Marquer comme consulté</button>
+    <!-- Liste des documents -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h3 class="title-color mb-4"><i class="icofont-folder mr-2"></i>Documents Associés</h3>
+        
+        <div *ngIf="documents.length > 0; else noDocuments">
+          <div class="document-list">
+            <div *ngFor="let doc of documents" class="document-item">
+              <div class="document-card">
+                <div class="document-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">{{ doc.fileName }}</h4>
+                    <span class="badge" [ngClass]="doc.consulted ? 'bg-success' : 'bg-secondary'">
+                      {{ doc.consulted ? 'Consulté' : 'Non consulté' }}
+                    </span>
+                  </div>
+                  <p class="text-muted small mb-0">Envoyé par {{ doc.sender.name }} le {{ doc.uploadDate | date:'medium' }}</p>
+                </div>
+                
+                <div class="document-body">
+                  <div *ngIf="doc.remarks" class="remarks mb-3">
+                    <div class="remarks-content">
+                      <p><strong>Remarques :</strong> {{ doc.remarks }}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="remarks-form mb-3">
+                    <div class="form-group">
+                      <input type="text" class="form-control" [(ngModel)]="remarksInput[doc.id]" placeholder="Ajouter une remarque" />
+                    </div>
+                    <button class="btn btn-main btn-round" (click)="addRemarks(doc.id)">
+                      <i class="icofont-comment mr-1"></i>Ajouter
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="document-footer">
+                  <button class="btn btn-main btn-round" (click)="downloadDocument(doc.id, doc.fileName)">
+                    <i class="icofont-download mr-1"></i>Télécharger
+                  </button>
+                  <button *ngIf="!doc.consulted" class="btn btn-main btn-round" (click)="markAsConsulted(doc.id)">
+                    <i class="icofont-check-circled mr-1"></i>Marquer comme consulté
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="remarks-section">
-          <p *ngIf="doc.remarks"><strong>Remarques :</strong> {{ doc.remarks }}</p>
-          <input [(ngModel)]="remarksInput[doc.id]" placeholder="Ajouter une remarque" />
-          <button (click)="addRemarks(doc.id)">💬 Ajouter</button>
-        </div>
-      </li>
-    </ul>
-
-    <ng-template #noDocuments>
-      <p class="no-doc">Aucun document pour ce rendez-vous.</p>
-    </ng-template>
+        
+        <ng-template #noDocuments>
+          <div class="alert alert-info mt-3">Aucun document pour ce rendez-vous.</div>
+        </ng-template>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<app-footer></app-footer>

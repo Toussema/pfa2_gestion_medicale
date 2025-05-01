@@ -1,75 +1,173 @@
 /* src/app/dashboard/notification/notification.component.css */
-.notification-container {
-    margin: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .notification-header h3.clickable {
-    cursor: pointer;
-    color: #007bff;
-    transition: color 0.2s;
-  }
-  
-  .notification-header h3.clickable:hover {
-    color: #0056b3;
-  }
-  
-  .notification-badge {
-    background-color: #ff4d4f;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-  
-  .notification-list {
-    margin-top: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  
+.notification-section {
+  padding: 60px 0;
+}
+
+.title-color {
+  color: #1a3c34;
+  font-weight: 600;
+}
+
+.btn-main {
+  background-color: #4a8f7c;
+  color: #fff;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  border: none;
+  margin-right: 5px;
+}
+
+.btn-main:hover {
+  background-color: #fc0000;
+  color: #fff;
+}
+
+.btn-round-full {
+  border-radius: 50px;
+}
+
+.btn-round {
+  border-radius: 20px;
+}
+
+.notification-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fc0000;
+  color: #fff;
+  width: 25px;
+  height: 25px;
+  font-size: 12px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.notification-wrap {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+  background-color: rgba(74, 143, 124, 0.1);
+  border-left: 4px solid #4a8f7c;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  background-color: rgba(74, 143, 124, 0.1);
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.notification-icon i {
+  font-size: 20px;
+  color: #4a8f7c;
+}
+
+.notification-details {
+  flex: 1;
+}
+
+.notification-message {
+  margin-bottom: 5px;
+  color: #1a3c34;
+}
+
+.notification-time {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.notification-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.alert-info {
+  border-radius: 10px;
+  background-color: rgba(74, 143, 124, 0.1);
+  border-color: #4a8f7c;
+  color: #1a3c34;
+  padding: 20px;
+  text-align: center;
+}
+
+.page-title {
+  position: relative;
+  padding: 120px 0;
+  background-image: url('/assets/images/bg/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.page-title .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 60, 52, 0.7);
+}
+
+.page-title h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
   .notification-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .notification-item.unread {
-    background-color: #e6f7ff;
-    font-weight: bold;
-  }
-  
-  .notification-content {
-    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .notification-actions {
-    display: flex;
-    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+    justify-content: flex-start;
   }
   
-  .notification-actions .btn {
-    font-size: 12px;
-    padding: 5px 10px;
+  .btn-main {
+    margin-bottom: 5px;
   }
   
-  .no-notifications {
-    text-align: center;
-    color: #888;
-    padding: 10px;
+  .page-title {
+    padding: 80px 0;
   }
+  
+  .page-title h1 {
+    font-size: 2rem;
+  }
+}

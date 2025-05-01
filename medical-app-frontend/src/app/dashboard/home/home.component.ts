@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { FooterComponent } from '../../shared/footer/footer.component';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, RouterModule, HttpClientModule,FooterComponent,HeaderComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

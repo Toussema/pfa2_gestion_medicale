@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-
+import { FooterComponent } from '../../shared/footer/footer.component';
+import { HeaderComponent } from '../../shared/header/header.component';
 @Component({
   selector: 'app-documents',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule,FooterComponent,HeaderComponent],
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.css']
 })
@@ -64,7 +65,7 @@ export class DocumentsComponent implements OnInit {
 
   uploadDocument(): void {
     if (!this.rendezVousId || !this.selectedFile) {
-      this.errorMessage = 'Veuillez sélectionner un rendez-vous et un fichier.';
+      this.errorMessage = 'Veuillez sélectionner un rendez-vous etng  un fichier.';
       return;
     }
     this.authService.uploadDocument(this.rendezVousId, this.selectedFile).subscribe({
