@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Gestion des Rendez-vous</span>
-          <h1 class="text-capitalize mb-5 text-lg">Vos Rendez-vous</h1>
+          <span class="text-white">Appointment Management</span>
+          <h1 class="text-capitalize mb-5 text-lg">Your Appointments</h1>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
   <div class="container py-5">
     <!-- Header and Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>Gestion des Rendez-vous</h2>
+      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>Appointment Management</h2>
     </div>
 
     <!-- Appointment Booking for Patients -->
@@ -29,7 +29,7 @@
           <div class="feature-icon mb-3">
             <img src="assets/image.png" alt="Service d'Urgence" class="support-image">
           </div>
-          <span class="h3">Service d'Urgence</span>
+          <span class="h3">Emergency Service</span>
           <h2 class="text-color mt-3">+216 55 44 33 22</h2>
         </div>
       </div>
@@ -37,14 +37,14 @@
       <!-- Booking Form -->
       <div class="col-lg-8">
         <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
-          <h2 class="mb-2 title-color">Prendre un rendez-vous</h2>
-          <p class="mb-4">Prenez un rendez-vous avec <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
+          <h2 class="mb-2 title-color">Book an Appointment</h2>
+          <p class="mb-4">Schedule an appointment with <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
           <form class="appoinment-form">
             <div class="row">
               <div class="col-lg-12">
                 <div class="form-group">
                   <select class="form-control" [(ngModel)]="selectedDisponibiliteId" name="disponibilite">
-                    <option disabled selected>Choisir une disponibilité</option>
+                    <option disabled selected>Select an availability</option>
                     <option *ngFor="let disp of disponibilites" [value]="disp.id">
                       {{ disp.jour }} | {{ disp.heureDebut }} - {{ disp.heureFin }}
                     </option>
@@ -52,28 +52,28 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Prendre le rendez-vous<i class="icofont-simple-right ml-2"></i></button>
+            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Book Appointment<i class="icofont-simple-right ml-2"></i></button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- Historique des rendez-vous -->
+    <!-- Appointment History -->
     <div class="row mt-5">
       <div class="col-lg-12">
         <h2 class="title-color mb-4">
-          {{ currentUser?.role === 'patient' ? 'Mes Rendez-vous' : 'Rendez-vous Patients' }}
+          {{ currentUser?.role === 'patient' ? 'My Appointments' : 'Patient Appointments' }}
         </h2>
         
         <div *ngIf="rendezVousList.length > 0; else noRendezVous" class="table-responsive">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th *ngIf="currentUser?.role === 'patient'">Médecin</th>
+                <th *ngIf="currentUser?.role === 'patient'">Physician</th>
                 <th *ngIf="currentUser?.role === 'medecin'">Patient</th>
-                <th>Jour</th>
-                <th>Heure</th>
-                <th>Statut</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -88,29 +88,31 @@
                     'bg-secondary': rv.statut === 'EN_ATTENTE',
                     'bg-success': rv.statut === 'CONFIRME',
                     'bg-danger': rv.statut === 'ANNULE'
-                  }">{{ rv.statut }}</span>
+                  }">
+                    {{ rv.statut === 'EN_ATTENTE' ? 'Pending' : rv.statut === 'CONFIRME' ? 'Confirmed' : 'Canceled' }}
+                  </span>
                 </td>
                 <td>
                   <div class="btn-group" role="group">
                     <button *ngIf="currentUser?.role === 'patient' && rv.statut === 'EN_ATTENTE'" 
                             class="btn btn-main btn-round" 
                             (click)="modifierRendezVous(rv)">
-                      Modifier
+                      Edit
                     </button>
                     <button *ngIf="rv.statut !== 'ANNULE'" 
                             class="btn btn-main btn-round" 
                             (click)="annulerRendezVous(rv.id!)">
-                      Annuler
+                      Cancel
                     </button>
                     <button *ngIf="currentUser?.role === 'medecin' && rv.statut === 'EN_ATTENTE'" 
                             class="btn btn-main btn-round" 
                             (click)="confirmerRendezVous(rv.id!)">
-                      Confirmer
+                      Confirm
                     </button>
                     <button *ngIf="rv.statut === 'CONFIRME'" 
                             class="btn btn-main btn-round" 
                             (click)="goToDocuments(rv.id!)">
-                      Gérer les Documents
+                      Manage Documents
                     </button>
                   </div>
                 </td>
@@ -120,7 +122,7 @@
         </div>
         
         <ng-template #noRendezVous>
-          <div class="alert alert-info mt-3">Aucun rendez-vous pour le moment.</div>
+          <div class="alert alert-info mt-3">No appointments scheduled at the moment.</div>
         </ng-template>
       </div>
     </div>

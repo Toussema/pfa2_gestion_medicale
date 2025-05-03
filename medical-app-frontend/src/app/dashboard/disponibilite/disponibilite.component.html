@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Tableau de Bord</span>
-          <h1 class="text-capitalize mb-5 text-lg">Gérer mes Disponibilités</h1>
+          <span class="text-white">Dashboard</span>
+          <h1 class="text-capitalize mb-5 text-lg">Manage My Availability</h1>
         </div>
       </div>
     </div>
@@ -18,10 +18,10 @@
   <div class="container py-5">
     <!-- Header and Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="title-animation">Gestion des Disponibilités</h1>
+      <h1 class="title-animation">Availability Management</h1>
     </div>
-<br>
-<BR>
+    <br>
+    <BR>
     <div class="row">
       <!-- Form Section -->
       <div class="col-lg-4">
@@ -29,28 +29,28 @@
           <div class="feature-icon mb-3">
             <img src="assets/calendar.png" alt="Gestion du Calendrier" class="support-image">
           </div>
-          <span class="h3">{{ editingDisponibilite ? 'Modifier la Disponibilité' : 'Ajouter une Disponibilité' }}</span>
+          <span class="h3">{{ editingDisponibilite ? 'Edit Availability' : 'Add Availability' }}</span>
           <div class="appoinment-wrap mt-4">
             <form (ngSubmit)="onSubmit()">
               <div class="form-group">
-                <label for="jour" class="text-color">Jour:</label>
+                <label for="jour" class="text-color">Date:</label>
                 <input type="date" id="jour" class="form-control" [(ngModel)]="disponibilite.jour" name="jour" required />
               </div>
               <div class="form-group">
-                <label for="heureDebut" class="text-color">Heure de début:</label>
+                <label for="heureDebut" class="text-color">Start Time:</label>
                 <input type="time" id="heureDebut" class="form-control" [(ngModel)]="disponibilite.heureDebut" name="heureDebut" required />
               </div>
               <div class="form-group">
-                <label for="heureFin" class="text-color">Heure de fin:</label>
+                <label for="heureFin" class="text-color">End Time:</label>
                 <input type="time" id="heureFin" class="form-control" [(ngModel)]="disponibilite.heureFin" name="heureFin" required />
               </div>
               <div class="d-flex">
                 <button type="submit" class="btn btn-main btn-round-full mr-2">
-                  {{ editingDisponibilite ? 'Modifier' : 'Ajouter' }}
+                  {{ editingDisponibilite ? 'Update' : 'Add' }}
                   <i class="icofont-check-circled ml-1"></i>
                 </button>
                 <button type="button" *ngIf="editingDisponibilite" (click)="resetForm()" class="btn btn-outline-secondary btn-round-full">
-                  Annuler
+                  Cancel
                   <i class="icofont-close-circled ml-1"></i>
                 </button>
               </div>
@@ -62,7 +62,7 @@
       <!-- List Section -->
       <div class="col-lg-8">
         <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
-          <h2 class="mb-4 title-color">Mes Disponibilités</h2>
+          <h2 class="mb-4 title-color">My Availability</h2>
           
           <div *ngIf="successMessage" class="alert alert-success mb-4" role="alert">
             <i class="icofont-check-circled mr-2"></i>{{ successMessage }}
@@ -76,9 +76,9 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Jour</th>
-                  <th>Horaire</th>
-                  <th>Statut</th>
+                  <th>Date</th>
+                  <th>Time Slot</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -87,16 +87,16 @@
                   <td>{{ disp.jour }}</td>
                   <td>{{ disp.heureDebut }} - {{ disp.heureFin }}</td>
                   <td>
-                    <span *ngIf="disp.estDisponible" class="badge badge-success">Disponible</span>
-                    <span *ngIf="!disp.estDisponible" class="badge badge-secondary">Indisponible</span>
+                    <span *ngIf="disp.estDisponible" class="badge badge-success">Available</span>
+                    <span *ngIf="!disp.estDisponible" class="badge badge-secondary">Unavailable</span>
                   </td>
                   <td>
                     <div class="action-buttons">
                       <button *ngIf="disp.estDisponible && disp.id" (click)="editDisponibilite(disp)" class="btn btn-sm btn-outline-primary mr-2">
-                        <i class="icofont-edit"></i> Modifier
+                        <i class="icofont-edit"></i> Edit
                       </button>
                       <button *ngIf="disp.estDisponible && disp.id" (click)="deleteDisponibilite(disp.id)" class="btn btn-sm btn-outline-danger">
-                        <i class="icofont-trash"></i> Supprimer
+                        <i class="icofont-trash"></i> Delete
                       </button>
                     </div>
                   </td>
@@ -107,7 +107,7 @@
           
           <ng-template #noDisponibilites>
             <div class="alert alert-info">
-              <i class="icofont-info-circle mr-2"></i>Aucune disponibilité enregistrée.
+              <i class="icofont-info-circle mr-2"></i>No availability recorded.
             </div>
           </ng-template>
         </div>

@@ -1,4 +1,3 @@
-<!-- src/app/dashboard/notification/notification.component.html -->
 <app-header></app-header>
 
 <section class="page-title bg-1">
@@ -7,8 +6,8 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Centre de notifications</span>
-          <h1 class="text-capitalize mb-5 text-lg">Vos Notifications</h1>
+          <span class="text-white">Notification Center</span>
+          <h1 class="text-capitalize mb-5 text-lg">Your Notifications</h1>
         </div>
       </div>
     </div>
@@ -24,28 +23,26 @@
           <span>{{ unreadNotifications.length }}</span>
         </div>
       </div>
-      <a class="btn btn-main btn-round-full" routerLink="/dashboard">
-        <i class="icofont-home mr-1"></i>Retour au Dashboard
-      </a>
+      
     </div>
 
     <div *ngIf="loading" class="text-center my-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Chargement...</span>
+        <span class="sr-only">Loading...</span>
       </div>
-      <p class="mt-2">Chargement des notifications...</p>
+      <p class="mt-2">Loading notifications...</p>
     </div>
 
     <div *ngIf="error" class="alert alert-danger mt-3">
       {{ error }}
-      <button class="btn btn-sm btn-outline-danger ml-2" (click)="loadNotifications()">Réessayer</button>
+      <button class="btn btn-sm btn-outline-danger ml-2" (click)="loadNotifications()">Retry</button>
     </div>
 
     <div class="row" *ngIf="!loading && !error">
       <div class="col-lg-12">
         <div class="notification-wrap">
           <div *ngIf="notifications.length === 0" class="alert alert-info mt-3">
-            Aucune notification pour le moment.
+            No notifications at the moment.
           </div>
           
           <div *ngFor="let notification of notifications" 
@@ -64,11 +61,11 @@
               <button *ngIf="!notification.isRead" 
                       class="btn btn-main btn-round" 
                       (click)="markAsRead(notification.id)">
-                <i class="icofont-check-circled mr-1"></i>Marquer comme lu
+                <i class="icofont-check-circled mr-1"></i>Mark as Read
               </button>
               <button class="btn btn-main btn-round" 
                       (click)="deleteNotification(notification.id)">
-                <i class="icofont-trash mr-1"></i>Supprimer
+                <i class="icofont-trash mr-1"></i>Delete
               </button>
             </div>
           </div>
@@ -77,11 +74,11 @@
             <button class="btn btn-main btn-round-full" 
                     (click)="markAllAsRead()" 
                     *ngIf="unreadNotifications.length > 0">
-              <i class="icofont-check-circled mr-1"></i>Tout marquer comme lu
+              <i class="icofont-check-circled mr-1"></i>Mark All as Read
             </button>
             <button class="btn btn-main btn-round-full ml-3" 
                     (click)="deleteAllNotifications()">
-              <i class="icofont-trash mr-1"></i>Supprimer toutes les notifications
+              <i class="icofont-trash mr-1"></i>Delete All Notifications
             </button>
           </div>
         </div>

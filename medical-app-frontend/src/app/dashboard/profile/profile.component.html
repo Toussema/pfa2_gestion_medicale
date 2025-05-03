@@ -1,144 +1,143 @@
-<!-- src/app/profile/profile.component.html -->
 <app-header></app-header>
 <section class="profile-section">
   <div class="profile-container">
     <div class="profile-header">
-      <h2 class="profile-title">Mon Profil</h2>
+      <h2 class="profile-title">My Profile</h2>
       <div class="title-divider"></div>
     </div>
     
     <div class="profile-card">
-      <!-- Affichage du profil -->
+      <!-- Profile Display -->
       <div *ngIf="user && !isEditing" class="profile-view">
         <div class="profile-grid">
           <div class="profile-info-group">
             <div class="profile-info-item">
-              <span class="info-label">Nom :</span>
+              <span class="info-label">Name:</span>
               <span class="info-value">{{ user.name }}</span>
             </div>
             <div class="profile-info-item">
-              <span class="info-label">Email :</span>
+              <span class="info-label">Email:</span>
               <span class="info-value">{{ user.email }}</span>
             </div>
             <div class="profile-info-item">
-              <span class="info-label">Rôle :</span>
+              <span class="info-label">Role:</span>
               <span class="info-value">{{ user.role }}</span>
             </div>
           </div>
           
           <div class="profile-info-group">
             <div class="profile-info-item">
-              <span class="info-label">Adresse :</span>
-              <span class="info-value">{{ user.adresse || 'Non spécifiée' }}</span>
+              <span class="info-label">Address:</span>
+              <span class="info-value">{{ user.adresse || 'Not specified' }}</span>
             </div>
             <div class="profile-info-item">
-              <span class="info-label">Téléphone :</span>
-              <span class="info-value">{{ user.tel || 'Non spécifié' }}</span>
+              <span class="info-label">Phone:</span>
+              <span class="info-value">{{ user.tel || 'Not specified' }}</span>
             </div>
             <div class="profile-info-item">
-              <span class="info-label">GSM :</span>
-              <span class="info-value">{{ user.gsm || 'Non spécifié' }}</span>
+              <span class="info-label">Mobile:</span>
+              <span class="info-value">{{ user.gsm || 'Not specified' }}</span>
             </div>
             <div *ngIf="user.role === 'medecin'" class="profile-info-item">
-              <span class="info-label">Spécialité :</span>
-              <span class="info-value">{{ user.specialite || 'Non spécifiée' }}</span>
+              <span class="info-label">Specialty:</span>
+              <span class="info-value">{{ user.specialite || 'Not specified' }}</span>
             </div>
           </div>
         </div>
         
         <div class="profile-actions">
           <button (click)="toggleEdit()" class="btn-edit">
-            <i class="icofont-edit"></i> Modifier le profil
+            <i class="icofont-edit"></i> Edit Profile
           </button>
           <button (click)="toggleDeleteSection()" class="btn-delete">
-            <i class="icofont-ui-delete"></i> Supprimer le compte
+            <i class="icofont-ui-delete"></i> Delete Account
           </button>
         </div>
       </div>
 
-      <!-- Formulaire de modification -->
+      <!-- Edit Form -->
       <div *ngIf="isEditing" class="profile-edit">
-        <h3 class="edit-title">Modifier le Profil</h3>
+        <h3 class="edit-title">Edit Profile</h3>
         
         <div class="edit-grid">
           <div class="form-column">
             <div class="form-group">
-              <label class="form-label">Nom :</label>
-              <input [(ngModel)]="updatedUser.name" class="form-input" placeholder="Nouveau nom" />
+              <label class="form-label">Name:</label>
+              <input [(ngModel)]="updatedUser.name" class="form-input" placeholder="New name" />
             </div>
             <div class="form-group">
-              <label class="form-label">Adresse :</label>
-              <input [(ngModel)]="updatedUser.adresse" class="form-input" placeholder="Nouvelle adresse" />
+              <label class="form-label">Address:</label>
+              <input [(ngModel)]="updatedUser.adresse" class="form-input" placeholder="New address" />
             </div>
             <div class="form-group">
-              <label class="form-label">Téléphone :</label>
-              <input [(ngModel)]="updatedUser.tel" class="form-input" placeholder="Nouveau téléphone" />
+              <label class="form-label">Phone:</label>
+              <input [(ngModel)]="updatedUser.tel" class="form-input" placeholder="New phone number" />
             </div>
           </div>
           
           <div class="form-column">
             <div class="form-group">
-              <label class="form-label">GSM :</label>
-              <input [(ngModel)]="updatedUser.gsm" class="form-input" placeholder="Nouveau GSM" />
+              <label class="form-label">Mobile:</label>
+              <input [(ngModel)]="updatedUser.gsm" class="form-input" placeholder="New mobile number" />
             </div>
             <div *ngIf="user.role === 'medecin'" class="form-group">
-              <label class="form-label">Spécialité :</label>
-              <input [(ngModel)]="updatedUser.specialite" class="form-input" placeholder="Nouvelle spécialité" />
+              <label class="form-label">Specialty:</label>
+              <input [(ngModel)]="updatedUser.specialite" class="form-input" placeholder="New specialty" />
             </div>
             <div class="form-group">
-              <label class="form-label">Email (confirmation) :</label>
-              <input [(ngModel)]="emailForUpdate" type="email" class="form-input" placeholder="Votre email" />
+              <label class="form-label">Email (confirmation):</label>
+              <input [(ngModel)]="emailForUpdate" type="email" class="form-input" placeholder="Your email" />
             </div>
             <div class="form-group">
-              <label class="form-label">Mot de passe (confirmation) :</label>
-              <input [(ngModel)]="passwordForUpdate" type="password" class="form-input" placeholder="Votre mot de passe" />
+              <label class="form-label">Password (confirmation):</label>
+              <input [(ngModel)]="passwordForUpdate" type="password" class="form-input" placeholder="Your password" />
             </div>
           </div>
         </div>
         
         <div class="form-actions">
           <button (click)="updateProfile()" class="btn-save">
-            <i class="icofont-save"></i> Enregistrer
+            <i class="icofont-save"></i> Save
           </button>
           <button (click)="toggleEdit()" class="btn-cancel">
-            <i class="icofont-close"></i> Annuler
+            <i class="icofont-close"></i> Cancel
           </button>
         </div>
       </div>
 
-      <!-- Section de suppression de compte -->
+      <!-- Account Deletion Section -->
       <div *ngIf="showDeleteSection && !isEditing && user" class="delete-section">
         <h3 class="delete-title">
-          <i class="icofont-warning"></i> Supprimer le compte
+          <i class="icofont-warning"></i> Delete Account
         </h3>
         
         <div class="delete-warning">
           <i class="icofont-warning"></i>
-          <p>Cette action est irréversible. Toutes vos données seront supprimées définitivement.</p>
+          <p>This action is irreversible. All your data will be permanently deleted.</p>
         </div>
         
         <div class="delete-form">
           <div class="form-group">
-            <label class="form-label">Email :</label>
-            <input [(ngModel)]="emailForDelete" type="email" class="form-input" placeholder="Votre email" />
+            <label class="form-label">Email:</label>
+            <input [(ngModel)]="emailForDelete" type="email" class="form-input" placeholder="Your email" />
           </div>
           <div class="form-group">
-            <label class="form-label">Mot de passe :</label>
-            <input [(ngModel)]="passwordForDelete" type="password" class="form-input" placeholder="Votre mot de passe" />
+            <label class="form-label">Password:</label>
+            <input [(ngModel)]="passwordForDelete" type="password" class="form-input" placeholder="Your password" />
           </div>
         </div>
         
         <div class="delete-actions">
           <button (click)="deleteAccount()" class="btn-confirm-delete">
-            <i class="icofont-trash"></i> Confirmer la suppression
+            <i class="icofont-trash"></i> Confirm Deletion
           </button>
           <button (click)="toggleDeleteSection()" class="btn-cancel-delete">
-            <i class="icofont-close"></i> Annuler
+            <i class="icofont-close"></i> Cancel
           </button>
         </div>
       </div>
 
-      <!-- Message d'erreur -->
+      <!-- Error Message -->
       <div *ngIf="errorMessage" class="error-message">
         <i class="icofont-close-circled"></i>
         <span>{{ errorMessage }}</span>

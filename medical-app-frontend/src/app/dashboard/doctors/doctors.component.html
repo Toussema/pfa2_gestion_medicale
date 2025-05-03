@@ -1,24 +1,24 @@
 <!-- src/app/doctors/doctors.component.html -->
- <app-header></app-header>
- <section class="page-title bg-1">
+<app-header></app-header>
+<section class="page-title bg-1">
   <div class="overlay"></div>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">All Doctors</span>
-          <h1 class="text-capitalize mb-5 text-lg">Specalized doctors</h1>
+          <span class="text-white">Our Doctors</span>
+          <h1 class="text-capitalize mb-5 text-lg">Specialized Physicians</h1>
         </div>
       </div>
     </div>
   </div>
 </section>
 <div class="doctors-container">
-  <h1 class="title-animation">Tous les Médecins</h1>
+  <h1 class="title-animation">All Physicians</h1>
   <div class="col-12 text-center mb-5">
     <div class="btn-group btn-group-toggle">
       <label class="btn" [ngClass]="{'active': selectedFilter === 'all'}">
-        <input type="radio" name="shuffle-filter" value="all" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> All Department
+        <input type="radio" name="shuffle-filter" value="all" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> All Departments
       </label>
       <label class="btn" [ngClass]="{'active': selectedFilter === 'cat1'}">
         <input type="radio" name="shuffle-filter" value="cat1" [(ngModel)]="selectedFilter" (ngModelChange)="filterDoctors()" /> Cardiology
@@ -47,12 +47,11 @@
         type="text" 
         [(ngModel)]="searchQuery" 
         (input)="searchDoctors()" 
-        placeholder="Rechercher par nom ou ville..." 
+        placeholder="Search by name or city..." 
         class="search-input"
       />
     </div>
   </div>
-
 
   <div class="doctor-list">
     <div 
@@ -65,7 +64,6 @@
     >
       <div class="doctor-header">
         <div class="doctor-avatar">
-      
           <i class="fas fa-user-md avatar-icon">    <img 
             [src]="doctor.image ? doctor.image : 'assets/images/1.jpg'" 
             alt="Doctor Avatar" 
@@ -74,14 +72,14 @@
         </div>
         <div class="doctor-basic-info">
           <h3>{{ doctor.name }}</h3>
-          <span class="specialty-badge">{{ doctor.specialite || 'Médecin généraliste' }}</span>
+          <span class="specialty-badge">{{ doctor.specialite || 'General Practitioner' }}</span>
         </div>
       </div>
 
       <div class="doctor-info">
         <div class="info-row">
           <i class="fas fa-map-marker-alt info-icon"></i>
-          <p>{{ doctor.adresse || 'Adresse non spécifiée' }}</p>
+          <p>{{ doctor.adresse || 'Address not specified' }}</p>
         </div>
       </div>
 
@@ -96,8 +94,7 @@
           <div class="info-row">
             <i class="fas fa-phone info-icon"></i>
             <p>
-              
-              <span *ngIf="!doctor.tel || doctor.tel === 'Non spécifié'">Non spécifié</span>
+              <span *ngIf="!doctor.tel || doctor.tel === 'Non spécifié'">Not specified</span>
               <a href="tel:{{ doctor.tel }}" *ngIf="doctor.tel && doctor.tel !== 'Non spécifié'" class="phone-link">
                 <img src="assets/images/phone-icon.png" alt="Call" class="call-icon" /> {{ doctor.tel }}
               </a>
@@ -106,9 +103,8 @@
           <div class="info-row">
             <i class="fas fa-mobile-alt info-icon"></i>
             <p>
-             
-              <span *ngIf="!doctor.gsm || doctor.gsm === 'Non spécifié'">Non spécifié</span>
-               <a href="tel:{{ doctor.gsm }}" *ngIf="doctor.gsm && doctor.gsm !== 'Non spécifié'" class="phone-link">
+              <span *ngIf="!doctor.gsm || doctor.gsm === 'Non spécifié'">Not specified</span>
+              <a href="tel:{{ doctor.gsm }}" *ngIf="doctor.gsm && doctor.gsm !== 'Non spécifié'" class="phone-link">
                 <img src="assets/images/phone-icon.png" alt="Call" class="call-icon" /> {{ doctor.gsm }}
               </a>
             </p>
@@ -118,7 +114,7 @@
         <div class="divider"></div>
         
         <div class="availability-section">
-          <h4><i class="far fa-calendar-alt"></i> Disponibilités</h4>
+          <h4><i class="far fa-calendar-alt"></i> Availability</h4>
           <div *ngIf="doctor.disponibilites && doctor.disponibilites.length > 0; else noAvailability" class="availability-grid">
             <div *ngFor="let disp of doctor.disponibilites" class="availability-item">
               <span class="day">{{ disp.jour }}</span>
@@ -126,7 +122,7 @@
             </div>
           </div>
           <ng-template #noAvailability>
-            <p class="no-availability">Aucune disponibilité pour le moment.</p>
+            <p class="no-availability">No availability at the moment.</p>
           </ng-template>
         </div>
         
@@ -136,7 +132,7 @@
             (click)="goToRendezVous(doctor.id); $event.stopPropagation()"
             class="appointment-button"
           >
-            <i class="far fa-calendar-plus"></i> Prendre un rendez-vous
+            <i class="far fa-calendar-plus"></i> Book an Appointment
           </button>
         </div>
         
@@ -145,7 +141,7 @@
 
       <div *ngIf="selectedDoctor?.id !== doctor.id && doctor.disponibilites && doctor.disponibilites.length > 0" class="availability-preview">
         <div class="availability-badge">
-          <i class="far fa-clock"></i> {{ doctor.disponibilites.length }} créneaux disponibles
+          <i class="far fa-clock"></i> {{ doctor.disponibilites.length }} time slots available
         </div>
       </div>
     </div>
@@ -153,7 +149,7 @@
 
   <div *ngIf="filteredDoctors.length === 0" class="no-results">
     <i class="fas fa-search-minus"></i>
-    <p>Aucun médecin ne correspond à votre recherche</p>
+    <p>No doctors match your search criteria.</p>
   </div>
 </div>
 <section class="section cta-page">
@@ -162,7 +158,7 @@
 			<div class="col-lg-7">
 				<div class="cta-content">
 					<div class="divider mb-4"></div>
-					<h2 class="mb-5 text-lg">We are pleased to offer you the <span class="title-color">chance to have the healthy</span></h2>
+					<h2 class="mb-5 text-lg">We are dedicated to providing you with <span class="title-color">exceptional healthcare services.</span></h2>
 				</div>
 			</div>
 		</div>
