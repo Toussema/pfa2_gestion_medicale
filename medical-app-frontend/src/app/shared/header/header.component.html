@@ -1,3 +1,4 @@
+<!-- src/app/shared/header/header.component.html -->
 <!-- Top Info Bar -->
 <div class="top-bar bg-dark text-white py-2">
   <div class="container">
@@ -40,20 +41,39 @@
           <a class="nav-link" routerLink="/doctors" routerLinkActive="active">Doctors</a>
         </li>
         <li class="nav-item dropdown" [class.show]="isDepartmentOpen">
-          <a class="nav-link dropdown-toggle"  role="button" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" role="button" (click)="toggleDepartment()" aria-expanded="false">
             Services
           </a>
           <ul class="dropdown-menu" [class.show]="isDepartmentOpen">
-            <li *ngIf="isDoctor"><a class="dropdown-item" routerLink="/disponibilites">Disponibilités</a></li>
-            <li><a class="dropdown-item" routerLink="/gestion-rendez-vous">Gestion Rendez-vous</a></li>
-            <li><a class="dropdown-item" routerLink="/prediction">Prédiction</a></li>
+            <li *ngIf="isDoctor"><a class="dropdown-item" routerLink="/disponibilites">Availability</a></li>
+            <li><a class="dropdown-item" routerLink="/gestion-rendez-vous">Appointment Management</a></li>
+            <li><a class="dropdown-item" routerLink="/prediction">Prediction</a></li>
           </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/notifications" routerLinkActive="active">Notifications</a>
+        <li class="nav-item position-relative">
+          <a class="nav-link" routerLink="/notifications" routerLinkActive="active" 
+             (mouseenter)="showPreview = true" (mouseleave)="showPreview = false">
+            <span class="notification-badge" *ngIf="unreadNotifications.length > 0">
+              {{ unreadNotifications.length }}
+            </span>
+            Notifications
+          </a>
+          <!-- Notification Preview -->
+          <div class="notification-preview" *ngIf="showPreview && unreadNotifications.length > 0">
+            <div class="preview-header">
+              <strong>Latest Notifications</strong>
+            </div>
+            <div class="preview-item" *ngFor="let notification of unreadNotifications.slice(0, 2)">
+              <p class="preview-message">{{ notification.message }}</p>
+              <small class="preview-time">{{ notification.createdAt | date:'short' }}</small>
+            </div>
+            <div class="preview-footer" *ngIf="unreadNotifications.length > 2">
+              <small>{{ unreadNotifications.length - 2 }} more notifications...</small>
+            </div>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf="!isLoggedIn" routerLink="/auth" routerLinkActive="active">Login</a>

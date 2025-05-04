@@ -27,8 +27,8 @@
   <div class="container py-5">
     <!-- Header and Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>Gestion des Rendez-vous</h2>
-      <a class="btn btn-main btn-round-full" routerLink="/doctors"><i class="icofont-home mr-1"></i>Retour</a>
+      <h2 class="title-color"><i class="icofont-calendar mr-2"></i>appointment management</h2>
+      <a class="btn btn-main btn-round-full" routerLink="/doctors"><i class="icofont-home mr-1"></i>Return</a>
     </div>
 
     <!-- Appointment Booking for Patients -->
@@ -39,7 +39,7 @@
           <div class="feature-icon mb-3">
             <img src="assets/image.png" alt="Service d'Urgence" class="support-image">
           </div>
-          <span class="h3">Service d'Urgence</span>
+          <span class="h3">Urgence Service</span>
           <h2 class="text-color mt-3">+216 55 44 33 22</h2>
         </div>
       </div>
@@ -47,14 +47,14 @@
       <!-- Booking Form -->
       <div class="col-lg-8">
         <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
-          <h2 class="mb-2 title-color">Prendre un rendez-vous</h2>
-          <p class="mb-4">Prenez un rendez-vous avec <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
+          <h2 class="mb-2 title-color">book an appoinment</h2>
+          <p class="mb-4">book an appoinment with <strong>{{ doctorDetails?.name }}</strong> ({{ doctorDetails?.specialite }}).</p>
           <form class="appoinment-form">
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group">
-                  <select class="form-control" [(ngModel)]="selectedDisponibiliteId" name="disponibilite">
-                    <option disabled selected >Choisir une disponibilité</option>
+                  <select class="form-control" [(ngModel)]="selectedDisponibiliteId" name="availability">
+                    <option disabled selected >Choose availability</option>
                     <option *ngFor="let disp of disponibilites" [value]="disp.id">
                       {{ disp.jour }} | {{ disp.heureDebut }} - {{ disp.heureFin }}
                     </option>
@@ -63,24 +63,24 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" value="{{ currentUser?.name }}" disabled placeholder="Nom complet">
+                  <input type="text" class="form-control" value="{{ currentUser?.name }}" disabled placeholder="full name">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" value="{{ doctorDetails?.specialite }}" disabled placeholder="Spécialité">
+                  <input type="text" class="form-control" value="{{ doctorDetails?.specialite }}" disabled placeholder="speciality">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <input type="number" class="form-control" value="{{ currentUser?.phone }}"  placeholder="Numéro de téléphone">
+                  <input type="number" class="form-control" value="{{ currentUser?.phone }}"  placeholder="phone number">
                 </div>
               </div>
             </div>
             <div class="form-group-2 mb-4">
-              <textarea class="form-control" rows="6"  name="message" placeholder="Votre message (facultatif)"></textarea>
+              <textarea class="form-control" rows="6"  name="message" placeholder="your message (facultatif)"></textarea>
             </div>
-            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Prendre le rendez-vous<i class="icofont-simple-right ml-2"></i></button>
+            <button class="btn btn-main btn-round-full" (click)="prendreRendezVous()">Make an appointment<i class="icofont-simple-right ml-2"></i></button>
           </form>
         </div>
       </div>
@@ -88,7 +88,7 @@
 
 
     <ng-template #noRendezVous>
-      <div class="alert alert-info mt-3">Aucun rendez-vous pour le moment.</div>
+      <div class="alert alert-info mt-3">No appointments at the moment.</div>
     </ng-template>
   </div>
 </section>

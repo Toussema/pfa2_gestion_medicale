@@ -1,7 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+// src/app/shared/header/header.component.ts
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; // Adjust path as needed
+import { NotificationService, Notification } from '../../services/notification.service'; // Import NotificationService
 import { User } from '../../models/user'; // Import the actual User model
 
 @Component({
@@ -11,14 +13,19 @@ import { User } from '../../models/user'; // Import the actual User model
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isDepartmentOpen = false;
   isLoggedIn: boolean = false;
   isDoctor: boolean = false;
+  unreadNotifications: Notification[] = []; // Propriété pour stocker les notifications non lues
+  showPreview: boolean = false; // Propriété pour gérer l'affichage de l'aperçu
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private notificationService: NotificationService) {}
+
+  ngOnInit(): void {
     this.updateUserState();
+    this.loadUnreadNotifications(); // Charger les notifications non lues
   }
 
   private updateUserState(): void {
@@ -43,6 +50,20 @@ export class HeaderComponent {
   logout(): void {
     this.authService.logout(); // Call the logout method from AuthService
     this.updateUserState(); // Update the state after logout
+    this.unreadNotifications = []; // Réinitialiser les notifications après déconnexion
+  }
+
+  loadUnreadNotifications(): void {
+    if (this.isLoggedIn) {
+      this.notificationService.getUnreadNotifications().subscribe({
+        next: (notifications) => {
+          this.unreadNotifications = notifications;
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des notifications non lues', error);
+        }
+      });
+    }
   }
 
   @HostListener('document:click', ['$event'])
