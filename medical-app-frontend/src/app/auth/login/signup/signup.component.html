@@ -1,8 +1,8 @@
 <div class="container mt-5"> 
-  <h2>Inscription</h2>
+  <h2>Signup</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="mb-3">
-      <label for="name" class="form-label">Nom</label>
+      <label for="name" class="form-label">Name</label>
       <input type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name" required>
     </div>
 
@@ -12,33 +12,32 @@
     </div>
 
     <div class="mb-3">
-      <label for="password" class="form-label">Mot de passe</label>
+      <label for="password" class="form-label">Password</label>
       <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required>
     </div>
 
     <div class="mb-3">
-      <label for="role" class="form-label">Rôle</label>
+      <label for="role" class="form-label">Role</label>
       <select class="form-control" id="role" [(ngModel)]="user.role" name="role">
-        <option value="patient">Utilisateur</option>
-        <option value="medecin">Médecin</option>
-        <option value="admin">Administrateur</option>
+        <option value="patient">User</option>
+        <option value="medecin">Doctor</option>
       </select>
     </div>
 
     <!-- Champs affichés uniquement si le rôle est 'medecin' -->
     <div *ngIf="user.role === 'medecin'">
       <div class="mb-3">
-        <label for="specialite" class="form-label">Spécialité</label>
+        <label for="specialite" class="form-label">Speciality</label>
         <input type="text" class="form-control" id="specialite" [(ngModel)]="user.specialite" name="specialite">
       </div>
 
       <div class="mb-3">
-        <label for="adresse" class="form-label">Adresse</label>
+        <label for="adresse" class="form-label">Address</label>
         <input type="text" class="form-control" id="adresse" [(ngModel)]="user.adresse" name="adresse">
       </div>
 
       <div class="mb-3">
-        <label for="tel" class="form-label">Téléphone</label>
+        <label for="tel" class="form-label">Phone</label>
         <input type="text" class="form-control" id="tel" [(ngModel)]="user.tel" name="tel">
       </div>
 
@@ -48,7 +47,7 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">S’inscrire</button>
+    <button type="submit" class="btn btn-primary">Signup</button>
   </form>
 
   <div class="mt-3">

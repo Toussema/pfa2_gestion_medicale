@@ -9,147 +9,147 @@
 
 
 <div class="container" [class.active]="isActive">
-    <!-- Formulaire de Connexion -->
-    <div class="form-container sign-in">
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-        <h1>Connexion</h1>
-        
-        <!-- Message d'erreur au niveau du formulaire -->
-        <div *ngIf="loginError" class="form-error-message">
-          {{ loginError }}
-        </div>
-        
+  <!-- Login Form -->
+  <div class="form-container sign-in">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <h1>Login</h1>
+      
+      <!-- Form-level error message -->
+      <div *ngIf="loginError" class="form-error-message">
+        {{ loginError }}
+      </div>
+      
+      <mat-form-field>
+        <input matInput type="email" formControlName="email" placeholder="Email" required>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Invalid email format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="password" formControlName="password" placeholder="Password" required>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">Log In</span>
+        <span *ngIf="isSubmitting">Logging in...</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Signup Form -->
+  <div class="form-container sign-up">
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+      <h1>Sign Up</h1>
+      
+      <!-- Form-level error message -->
+      <div *ngIf="signupError" class="form-error-message">
+        {{ signupError }}
+      </div>
+
+      <mat-form-field>
+        <input matInput type="text" formControlName="name" placeholder="Full Name" required>
+        <mat-error *ngIf="signupForm.get('name')?.hasError('required')">
+          Full name required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="email" formControlName="email" placeholder="Email" required>
+        <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
+          Email required
+        </mat-error>
+        <mat-error *ngIf="signupForm.get('email')?.hasError('email')">
+          Invalid email format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="password" formControlName="password" placeholder="Password" required>
+        <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
+          Password required
+        </mat-error>
+        <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">
+          Password must be at least 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" required>
+          <mat-option value="patient">Patient</mat-option>
+          <mat-option value="medecin">Doctor</mat-option>
+        </mat-select>
+        <mat-error *ngIf="signupForm.get('role')?.hasError('required')">
+          Please select a role
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="signupForm.get('role')?.value === 'medecin'" class="medecin-fields" [@slideInOut]>
         <mat-form-field>
-          <input matInput type="email" formControlName="email" placeholder="Email" required>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email requis
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-            Format d'email invalide
+          <input matInput type="text" formControlName="specialite" placeholder="Specialty" required>
+          <mat-error *ngIf="signupForm.get('specialite')?.hasError('required')">
+            Specialty required
           </mat-error>
         </mat-form-field>
-  
+
         <mat-form-field>
-          <input matInput type="password" formControlName="password" placeholder="Mot de passe" required>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-            Mot de passe requis
+          <input matInput type="text" formControlName="adresse" placeholder="Address" required>
+          <mat-error *ngIf="signupForm.get('adresse')?.hasError('required')">
+            Address required
           </mat-error>
         </mat-form-field>
-  
-        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
-          <span *ngIf="!isSubmitting">Se connecter</span>
-          <span *ngIf="isSubmitting">Connexion en cours...</span>
-        </button>
-      </form>
-    </div>
-  
-    <!-- Formulaire d'Inscription -->
-    <div class="form-container sign-up">
-      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-        <h1>Inscription</h1>
-        
-        <!-- Message d'erreur au niveau du formulaire -->
-        <div *ngIf="signupError" class="form-error-message">
-          {{ signupError }}
-        </div>
-  
+
         <mat-form-field>
-          <input matInput type="text" formControlName="name" placeholder="Nom complet" required>
-          <mat-error *ngIf="signupForm.get('name')?.hasError('required')">
-            Nom complet requis
+          <input matInput type="tel" formControlName="tel" placeholder="Phone" required>
+          <mat-error *ngIf="signupForm.get('tel')?.hasError('required')">
+            Phone required
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('tel')?.hasError('pattern')">
+            Invalid phone format
           </mat-error>
         </mat-form-field>
-  
+
         <mat-form-field>
-          <input matInput type="email" formControlName="email" placeholder="Email" required>
-          <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
-            Email requis
-          </mat-error>
-          <mat-error *ngIf="signupForm.get('email')?.hasError('email')">
-            Format d'email invalide
+          <input matInput type="tel" formControlName="gsm" placeholder="Mobile">
+          <mat-error *ngIf="signupForm.get('gsm')?.hasError('pattern')">
+            Invalid mobile format
           </mat-error>
         </mat-form-field>
-  
-        <mat-form-field>
-          <input matInput type="password" formControlName="password" placeholder="Mot de passe" required>
-          <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
-            Mot de passe requis
-          </mat-error>
-          <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">
-            Le mot de passe doit contenir au moins 6 caractères
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field>
-          <mat-label>Rôle</mat-label>
-          <mat-select formControlName="role" required>
-            <mat-option value="patient">Patient</mat-option>
-            <mat-option value="medecin">Médecin</mat-option>
-          </mat-select>
-          <mat-error *ngIf="signupForm.get('role')?.hasError('required')">
-            Veuillez sélectionner un rôle
-          </mat-error>
-        </mat-form-field>
-  
-        <div *ngIf="signupForm.get('role')?.value === 'medecin'" class="medecin-fields" [@slideInOut]>
-          <mat-form-field>
-            <input matInput type="text" formControlName="specialite" placeholder="Spécialité" required>
-            <mat-error *ngIf="signupForm.get('specialite')?.hasError('required')">
-              Spécialité requise
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field>
-            <input matInput type="text" formControlName="adresse" placeholder="Adresse" required>
-            <mat-error *ngIf="signupForm.get('adresse')?.hasError('required')">
-              Adresse requise
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field>
-            <input matInput type="tel" formControlName="tel" placeholder="Téléphone" required>
-            <mat-error *ngIf="signupForm.get('tel')?.hasError('required')">
-              Téléphone requis
-            </mat-error>
-            <mat-error *ngIf="signupForm.get('tel')?.hasError('pattern')">
-              Format de téléphone invalide
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field>
-            <input matInput type="tel" formControlName="gsm" placeholder="GSM">
-            <mat-error *ngIf="signupForm.get('gsm')?.hasError('pattern')">
-              Format de GSM invalide
-            </mat-error>
-          </mat-form-field>
-        </div>
-  
-        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
-          <span *ngIf="!isSubmitting">S'inscrire</span>
-          <span *ngIf="isSubmitting">Inscription en cours...</span>
-        </button>
-      </form>
-    </div>
-  
-    <!-- Panneau de Bascule -->
-    <div class="toggle-container">
-      <div class="toggle">
-        <div class="toggle-panel toggle-left">
-          <h1>Content de vous revoir !</h1>
-          <p>Connectez-vous avec vos informations personnelles</p>
-          <button mat-stroked-button class="hidden" (click)="toggleForm(false)">Se connecter</button>
-        </div>
-  
-        <div class="toggle-panel toggle-right">
-          <h1>Bonjour !</h1>
-          <p>Inscrivez-vous pour accéder à toutes les fonctionnalités</p>
-          <button mat-stroked-button class="hidden" (click)="toggleForm(true)">S'inscrire</button>
-        </div>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">Sign Up</span>
+        <span *ngIf="isSubmitting">Signing up...</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Toggle Panel -->
+  <div class="toggle-container">
+    <div class="toggle">
+      <div class="toggle-panel toggle-left">
+        <h1>Good to see you again!</h1>
+        <p>Log in with your personal information</p>
+        <button mat-stroked-button class="hidden" (click)="toggleForm(false)">Log In</button>
+      </div>
+
+      <div class="toggle-panel toggle-right">
+        <h1>Hello!</h1>
+        <p>Sign up to access all features</p>
+        <button mat-stroked-button class="hidden" (click)="toggleForm(true)">Sign Up</button>
       </div>
     </div>
-  
-    <!-- Toast Messages -->
-    <div class="message" [class.visible]="showMessage" [class.error]="messageType === 'error'" [class.success]="messageType === 'success'">
-      {{ message }}
-    </div>
   </div>
+
+  <!-- Toast Messages -->
+  <div class="message" [class.visible]="showMessage" [class.error]="messageType === 'error'" [class.success]="messageType === 'success'">
+    {{ message }}
+  </div>
+</div>
